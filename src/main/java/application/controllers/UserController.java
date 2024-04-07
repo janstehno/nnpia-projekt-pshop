@@ -1,6 +1,6 @@
 package application.controllers;
 
-import application.entities.User;
+import application.entities.AppUser;
 import application.services.UserService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -17,17 +17,17 @@ public class UserController {
     private final UserService service;
 
     @GetMapping()
-    public List<User> getAllUsers() {
+    public List<AppUser> getAllUsers() {
         return service.getAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(
+    public ResponseEntity<AppUser> getUserById(
             @PathVariable
             Long id) {
-        User user = service.getById(id);
-        if (user != null) {
-            return ResponseEntity.ok(user);
+        AppUser appUser = service.getById(id);
+        if (appUser != null) {
+            return ResponseEntity.ok(appUser);
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -37,8 +37,8 @@ public class UserController {
     public ResponseEntity<Void> createUser(
             @RequestBody
             @Valid
-            User user) {
-        service.create(user);
+            AppUser appUser) {
+        service.create(appUser);
         return ResponseEntity.noContent().build();
     }
 
@@ -48,8 +48,8 @@ public class UserController {
             Long id,
             @RequestBody
             @Valid
-            User user) {
-        service.update(user);
+            AppUser appUser) {
+        service.update(appUser);
         return ResponseEntity.noContent().build();
     }
 

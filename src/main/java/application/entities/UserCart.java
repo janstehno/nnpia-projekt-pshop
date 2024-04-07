@@ -13,13 +13,13 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class Cart {
+public class UserCart {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false)
     @ToString.Exclude
-    private User user;
-    @ManyToMany(mappedBy = "carts") private List<Item> items;
+    private AppUser appUser;
+    @ManyToMany(mappedBy = "userCarts") private List<Item> items;
 }

@@ -15,7 +15,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -41,6 +41,6 @@ public class User {
     @Column private Boolean active;
     @Column private LocalDateTime creation_date;
     @Column private LocalDateTime update_date;
-    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE) private Cart cart;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST) private List<Order> orders;
+    @OneToOne(mappedBy = "appUser", cascade = CascadeType.REMOVE) private UserCart userCart;
+    @OneToMany(mappedBy = "appUser", cascade = CascadeType.PERSIST) private List<ItemOrder> itemOrders;
 }

@@ -1,7 +1,7 @@
 package application.entities.items;
 
-import application.entities.Cart;
-import application.entities.Order;
+import application.entities.UserCart;
+import application.entities.ItemOrder;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -35,9 +35,9 @@ public abstract class Item {
     @ManyToMany
     @JoinColumn(name = "carts_id", nullable = false)
     @ToString.Exclude
-    private List<Cart> carts;
+    private List<UserCart> userCarts;
     @ManyToMany
     @JoinColumn(name = "orders_id", nullable = false)
     @ToString.Exclude
-    private List<Order> orders;
+    private List<ItemOrder> itemOrders;
 }

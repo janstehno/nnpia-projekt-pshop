@@ -1,6 +1,6 @@
 package application.services;
 
-import application.entities.Cart;
+import application.entities.UserCart;
 import application.repositories.CartRepository;
 import org.springframework.stereotype.Service;
 
@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CartService implements ServiceI<Cart> {
+public class CartService implements ServiceI<UserCart> {
 
     private final CartRepository cartRepository;
 
@@ -17,24 +17,24 @@ public class CartService implements ServiceI<Cart> {
     }
 
     @Override
-    public List<Cart> getAll() {
+    public List<UserCart> getAll() {
         return cartRepository.findAll();
     }
 
     @Override
-    public Cart getById(Long id) {
-        Optional<Cart> cart = cartRepository.findById(id);
+    public UserCart getById(Long id) {
+        Optional<UserCart> cart = cartRepository.findById(id);
         return cart.orElse(null);
     }
 
     @Override
-    public Cart create(Cart cart) {
-        return cartRepository.save(cart);
+    public UserCart create(UserCart userCart) {
+        return cartRepository.save(userCart);
     }
 
     @Override
-    public Cart update(Cart cart) {
-        return cartRepository.save(cart);
+    public UserCart update(UserCart userCart) {
+        return cartRepository.save(userCart);
     }
 
     @Override

@@ -1,8 +1,6 @@
 package application.controllers;
 
-import application.entities.Cart;
-import application.entities.User;
-import application.services.CartService;
+import application.entities.UserCart;
 import application.services.CartService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -19,17 +17,17 @@ public class CartController {
     private final CartService service;
 
     @GetMapping()
-    public List<Cart> getAllCarts() {
+    public List<UserCart> getAllCarts() {
         return service.getAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Cart> getCartById(
+    public ResponseEntity<UserCart> getCartById(
             @PathVariable
             Long id) {
-        Cart cart = service.getById(id);
-        if (cart != null) {
-            return ResponseEntity.ok(cart);
+        UserCart userCart = service.getById(id);
+        if (userCart != null) {
+            return ResponseEntity.ok(userCart);
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -39,8 +37,8 @@ public class CartController {
     public ResponseEntity<Void> createCart(
             @RequestBody
             @Valid
-            Cart cart) {
-        service.create(cart);
+            UserCart userCart) {
+        service.create(userCart);
         return ResponseEntity.noContent().build();
     }
 
@@ -50,8 +48,8 @@ public class CartController {
             Long id,
             @RequestBody
             @Valid
-            Cart cart) {
-        service.update(cart);
+            UserCart userCart) {
+        service.update(userCart);
         return ResponseEntity.noContent().build();
     }
 

@@ -1,6 +1,6 @@
 package application.controllers;
 
-import application.entities.Order;
+import application.entities.ItemOrder;
 import application.services.OrderService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -17,17 +17,17 @@ public class OrderController {
     private final OrderService service;
 
     @GetMapping()
-    public List<Order> getAllOrders() {
+    public List<ItemOrder> getAllOrders() {
         return service.getAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Order> getOrderById(
+    public ResponseEntity<ItemOrder> getOrderById(
             @PathVariable
             Long id) {
-        Order order = service.getById(id);
-        if (order != null) {
-            return ResponseEntity.ok(order);
+        ItemOrder itemOrder = service.getById(id);
+        if (itemOrder != null) {
+            return ResponseEntity.ok(itemOrder);
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -37,8 +37,8 @@ public class OrderController {
     public ResponseEntity<Void> createOrder(
             @RequestBody
             @Valid
-            Order order) {
-        service.create(order);
+            ItemOrder itemOrder) {
+        service.create(itemOrder);
         return ResponseEntity.noContent().build();
     }
 

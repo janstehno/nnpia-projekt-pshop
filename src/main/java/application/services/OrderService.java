@@ -1,6 +1,6 @@
 package application.services;
 
-import application.entities.Order;
+import application.entities.ItemOrder;
 import application.repositories.OrderRepository;
 import org.springframework.stereotype.Service;
 
@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class OrderService implements ServiceI<Order> {
+public class OrderService implements ServiceI<ItemOrder> {
 
     private final OrderRepository orderRepository;
 
@@ -17,24 +17,24 @@ public class OrderService implements ServiceI<Order> {
     }
 
     @Override
-    public List<Order> getAll() {
+    public List<ItemOrder> getAll() {
         return orderRepository.findAll();
     }
 
     @Override
-    public Order getById(Long id) {
-        Optional<Order> order = orderRepository.findById(id);
+    public ItemOrder getById(Long id) {
+        Optional<ItemOrder> order = orderRepository.findById(id);
         return order.orElse(null);
     }
 
     @Override
-    public Order create(Order order) {
-        return orderRepository.save(order);
+    public ItemOrder create(ItemOrder itemOrder) {
+        return orderRepository.save(itemOrder);
     }
 
     @Override
-    public Order update(Order order) {
-        return orderRepository.save(order);
+    public ItemOrder update(ItemOrder itemOrder) {
+        return orderRepository.save(itemOrder);
     }
 
     @Override

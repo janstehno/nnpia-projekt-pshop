@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class Order {
+public class ItemOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -24,6 +24,6 @@ public class Order {
     @Column private Double price;
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
-    @ManyToMany(mappedBy = "orders") private List<Item> items;
+    private AppUser appUser;
+    @ManyToMany(mappedBy = "itemOrders") private List<Item> items;
 }
