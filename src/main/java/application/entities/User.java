@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Entity
@@ -40,5 +41,6 @@ public class User {
     @Column private Boolean active;
     @Column private LocalDateTime creation_date;
     @Column private LocalDateTime update_date;
-    @OneToOne(mappedBy = "user") private Cart cart;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE) private Cart cart;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST) private List<Order> orders;
 }
