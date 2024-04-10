@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/pshop
+    username: pshop
+    password: pshop
+  jpa:
+    hibernate:
+      ddl-auto: create
+  security:
+    user:
+      name: user
+      password: user
