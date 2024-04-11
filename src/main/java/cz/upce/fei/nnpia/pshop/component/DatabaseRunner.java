@@ -1,28 +1,22 @@
 package cz.upce.fei.nnpia.pshop.component;
 
-import cz.upce.fei.nnpia.pshop.entity.User;
-import cz.upce.fei.nnpia.pshop.repository.UserRepository;
+import cz.upce.fei.nnpia.pshop.entity.Role;
+import cz.upce.fei.nnpia.pshop.repository.RoleRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 @Component
+@AllArgsConstructor
 public class DatabaseRunner implements ApplicationRunner {
 
-    private final UserRepository userRepository;
-
-    public DatabaseRunner(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    private final RoleRepository roleRepository;
 
     @Override
     public void run(ApplicationArguments args) {
-        User user = new User();
-        user.setName("Jan");
-        user.setSurname("Stehno");
-        user.setUsername("janstehno");
-        user.setPassword("password");
-        userRepository.save(user);
+        roleRepository.save(Role.builder().name("ADMIN").build());
+        roleRepository.save(Role.builder().name("USER").build());
     }
 }
 

@@ -1,4 +1,4 @@
-package cz.upce.fei.nnpia.pshop.security;
+package cz.upce.fei.nnpia.pshop.security.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthResponseDTO {
-    private String accessToken;
+public class AuthenticationResponse {
+    private String token;
 }

@@ -27,7 +27,7 @@ public class UserService implements ServiceI<User> {
         return user.orElse(null);
     }
 
-    public User getByUsername(String username) {
+    public Optional<User> getByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 

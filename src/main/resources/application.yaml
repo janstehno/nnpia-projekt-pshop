@@ -3,10 +3,15 @@ spring:
     url: jdbc:postgresql://localhost:5432/pshop
     username: pshop
     password: pshop
+    driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: create-drop
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
   security:
     user:
       name: user
       password: user
+    filter:
+      order: 10

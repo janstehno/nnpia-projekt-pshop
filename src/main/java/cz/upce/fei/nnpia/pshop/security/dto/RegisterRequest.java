@@ -1,4 +1,4 @@
-package cz.upce.fei.nnpia.pshop.security;
+package cz.upce.fei.nnpia.pshop.security.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthRequestDTO {
-
+public class RegisterRequest {
+    private String firstname;
+    private String lastname;
     private String username;
     private String password;
 }

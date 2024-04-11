@@ -1,31 +1,33 @@
 package cz.upce.fei.nnpia.pshop.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Controller;
+import cz.upce.fei.nnpia.pshop.security.dto.AuthenticationResponse;
+import cz.upce.fei.nnpia.pshop.security.dto.LoginRequest;
+import cz.upce.fei.nnpia.pshop.security.dto.RegisterRequest;
+import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
+@AllArgsConstructor
+@RequestMapping("/auth")
 public class AuthController {
 
-    @Autowired AuthenticationManager authenticationManager;
+    private final AuthService authService;
 
-    @Autowired JwtService jwtService;
-
-    @PostMapping("/auth")
-    public AuthResponseDTO AuthenticateAndGetToken(
+    @PostMapping("/register")
+    public ResponseEntity<AuthenticationResponse> register(
             @RequestBody
-            AuthRequestDTO authRequestDTO) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequestDTO.getUsername(),
-                                                                                                                   authRequestDTO.getPassword()));
-        if (authentication.isAuthenticated()) {
-            return AuthResponseDTO.builder().accessToken(jwtService.generateToken(authRequestDTO.getUsername())).build();
-        } else {
-            throw new UsernameNotFoundException("Invalid request");
-        }
+            RegisterRequest registerRequest) {
+        return ResponseEntity.ok(authService.register(registerRequest));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> AuthenticateAndGetToken(
+            @RequestBody
+            LoginRequest loginRequest) {
+        return ResponseEntity.ok(authService.login(loginRequest));
     }
 }
