@@ -1,6 +1,5 @@
 package cz.upce.fei.nnpia.pshop.security;
 
-import cz.upce.fei.nnpia.pshop.security.dto.AuthenticationResponse;
 import cz.upce.fei.nnpia.pshop.security.dto.LoginRequest;
 import cz.upce.fei.nnpia.pshop.security.dto.RegisterRequest;
 import lombok.AllArgsConstructor;
@@ -18,16 +17,16 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(
+    public ResponseEntity<?> register(
             @RequestBody
             RegisterRequest registerRequest) {
-        return ResponseEntity.ok(authService.register(registerRequest));
+        return authService.register(registerRequest);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> AuthenticateAndGetToken(
+    public ResponseEntity<?> login(
             @RequestBody
             LoginRequest loginRequest) {
-        return ResponseEntity.ok(authService.login(loginRequest));
+        return authService.login(loginRequest);
     }
 }

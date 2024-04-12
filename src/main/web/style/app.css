@@ -23,6 +23,9 @@ h6 {
   --accent-color: #8BC34A;
   --accent-light-color: #C5E1A5;
   --accent-dark-color: #558B2F;
+  --error-color: #D32F2F;
+
+  --menu-height: 80px;
 
   color-scheme: light;
   color: var(--primary-color);
@@ -34,30 +37,81 @@ h6 {
   -moz-osx-font-smoothing: grayscale;
 }
 
+input#submit,
+button {
+  width: inherit;
+  color: var(--secondary-color);
+  background-color: var(--accent-color);
+  text-transform: uppercase;
+  font-size: 0.8em;
+  font-weight: 800;
+  border: none;
+  border-radius: 5px;
+  padding-inline: 10px;
+  transition: all 0.2s;
+}
+
+input#submit:hover,
+button:hover {
+  background-color: var(--accent-light-color);
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
 nav {
-  padding: 20px;
+  width: 100%;
+  height: var(--menu-height);
+  position: fixed;
+}
+
+nav #navigation {
+  height: inherit;
+  padding-inline: 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   background-color: var(--secondary-color);
 }
 
-nav #title {
-  color: var(--accent-color);
-}
-
-nav #links {
-  display: flex;
-}
-
-nav a {
+nav #navigation a {
   color: var(--primary-color);
   text-decoration: none;
   margin-inline: 10px;
   text-transform: uppercase;
 }
 
+nav #navigation #title {
+  color: var(--accent-color);
+}
+
+nav #navigation #right {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+}
+
+nav #navigation #account {
+  display: flex;
+  margin-bottom: 5px;
+  margin-right: 10px;
+}
+
+nav #navigation #account {
+  height: 1.5em;
+  font-size: 0.8em;
+}
+
+nav #navigation #links {
+  display: flex;
+}
+
+nav #navigation #username,
+nav #navigation #sign-up {
+  margin-right: 10px;
+}
+
 #header {
+  padding-top: var(--menu-height);
   min-height: 300px;
   display: flex;
   flex-direction: column;
@@ -97,6 +151,8 @@ nav a {
 }
 
 #sign {
+  padding-top: calc(var(--menu-height)*1.5);
+  padding-bottom: calc(var(--menu-height)*0.5);
   min-width: inherit;
   min-height: inherit;
   display: flex;
@@ -106,40 +162,50 @@ nav a {
   background-color: #21212188;
 }
 
+#sign h1 {
+  margin-bottom: 10px;
+}
+
 #sign-form {
   width: 250px;
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
 
 #sign-form label {
-  text-align: left;
-  padding-bottom: 5px;
+  margin-left: 3px;
+  margin-top: 15px;
+  margin-bottom: 5px;
   font-size: 0.75em;
 }
 
 #sign-form input {
   width: inherit;
   height: 40px;
-  padding: 0 10px;
+  padding-inline: 10px;
   border: none;
-  border-radius: 10px;
-  margin-bottom: 15px;
+  border-radius: 5px;
 }
 
 #sign-form input#submit {
-  width: inherit;
-  color: var(--secondary-color);
-  background-color: var(--accent-dark-color);
-  text-transform: uppercase;
-  font-size: 0.8em;
-  font-weight: 800;
-  transition: all 0.2s;
+  margin-top: 20px;
 }
 
-#sign-form input#submit:hover {
-  background-color: var(--accent-color);
-  transition: all 0.2s;
-  cursor: pointer;
+#sign-form input:focus {
+  outline: none;
+}
+
+#sign-form .error {
+  color: var(--error-color);
+  padding: 3px 10px;
+  font-size: 0.6em;
+  font-weight: 600;
+}
+
+#sign-form .valid {
+  border: none;
+}
+
+#sign-form .invalid {
+  border: 3px var(--error-color) solid;
 }

@@ -15,7 +15,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Data
@@ -38,6 +37,10 @@ public class User implements UserDetails {
     @NotEmpty
     @Length(max = 30)
     private String lastname;
+    @Column
+    @NotNull
+    @NotEmpty
+    private String email;
     @Column
     @NotNull
     @NotEmpty
