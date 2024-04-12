@@ -1,4 +1,145 @@
-#root {
-  margin: 0 auto;
-  text-align: center;
+* {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5em;
+  font-weight: 400;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-transform: uppercase;
+  font-weight: 800;
+}
+
+:root {
+  --primary-color: #EEEEEE;
+  --secondary-color: #212121;
+  --accent-color: #8BC34A;
+  --accent-light-color: #C5E1A5;
+  --accent-dark-color: #558B2F;
+
+  color-scheme: light;
+  color: var(--primary-color);
+  background-color: var(--secondary-color);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+nav {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--secondary-color);
+}
+
+nav #title {
+  color: var(--accent-color);
+}
+
+nav #links {
+  display: flex;
+}
+
+nav a {
+  color: var(--primary-color);
+  text-decoration: none;
+  margin-inline: 10px;
+  text-transform: uppercase;
+}
+
+#header {
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--secondary-color);
+  background-color: var(--primary-color);
+}
+
+#footer {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--secondary-color);
+}
+
+#divider {
+  width: 2px;
+  margin-inline: 15px;
+  background-color: var(--accent-color);
+}
+
+#disclaimer {
+  font-size: 0.8em;
+  color: #696969;
+}
+
+#container {
+  min-width: 100%;
+  min-height: 100vh;
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+  background-image: url("../assets/images/forest.jpg");
+}
+
+#sign {
+  min-width: inherit;
+  min-height: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #21212188;
+}
+
+#sign-form {
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#sign-form label {
+  text-align: left;
+  padding-bottom: 5px;
+  font-size: 0.75em;
+}
+
+#sign-form input {
+  width: inherit;
+  height: 40px;
+  padding: 0 10px;
+  border: none;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+#sign-form input#submit {
+  width: inherit;
+  color: var(--secondary-color);
+  background-color: var(--accent-dark-color);
+  text-transform: uppercase;
+  font-size: 0.8em;
+  font-weight: 800;
+  transition: all 0.2s;
+}
+
+#sign-form input#submit:hover {
+  background-color: var(--accent-color);
+  transition: all 0.2s;
+  cursor: pointer;
 }
