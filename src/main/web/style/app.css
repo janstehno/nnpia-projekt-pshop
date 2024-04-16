@@ -47,7 +47,7 @@ button {
   font-weight: 800;
   border: none;
   border-radius: 5px;
-  padding-inline: 10px;
+  padding: 0 10px;
   transition: all 0.2s;
 }
 
@@ -66,7 +66,7 @@ nav {
 
 nav #navigation {
   height: inherit;
-  padding-inline: 20px;
+  padding: 0 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -76,7 +76,7 @@ nav #navigation {
 nav #navigation a {
   color: var(--primary-color);
   text-decoration: none;
-  margin-inline: 10px;
+  margin: 0 10px;
   text-transform: uppercase;
 }
 
@@ -110,9 +110,12 @@ nav #navigation #sign-up {
   margin-right: 10px;
 }
 
-#header {
+#header,
+#error,
+#items,
+#detail {
+  min-height: calc(100vh - var(--menu-height));
   padding-top: var(--menu-height);
-  min-height: 300px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -121,18 +124,31 @@ nav #navigation #sign-up {
   background-color: var(--primary-color);
 }
 
+
+#items,
+#detail {
+  padding-bottom: var(--menu-height);
+}
+
+#header {
+  color: var(--primary-color);
+  background-color: #21212188;
+}
+
 #footer {
-  padding: 20px;
+  height: var(--menu-height);
+  padding: 0 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   background-color: var(--secondary-color);
+  text-align: center;
 }
 
 #divider {
   width: 2px;
-  margin-inline: 15px;
+  margin: 0 15px;
   background-color: var(--accent-color);
 }
 
@@ -151,10 +167,9 @@ nav #navigation #sign-up {
 }
 
 #sign {
-  padding-top: calc(var(--menu-height)*1.5);
-  padding-bottom: calc(var(--menu-height)*0.5);
   min-width: inherit;
   min-height: inherit;
+  padding-top: var(--menu-height);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -182,7 +197,7 @@ nav #navigation #sign-up {
 #sign-form input {
   width: inherit;
   height: 40px;
-  padding-inline: 10px;
+  padding: 0 10px;
   border: none;
   border-radius: 5px;
 }
@@ -208,4 +223,151 @@ nav #navigation #sign-up {
 
 #sign-form .invalid {
   border: 3px var(--error-color) solid;
+}
+
+#items, #detail {
+  justify-content: space-between;
+}
+
+#items h1, #detail h1 {
+  padding: 30px;
+}
+
+#items #wrap {
+  width: 60vw;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 270px);
+  grid-gap: 50px;
+  justify-content:center;
+}
+
+#items .item {
+  width: 270px;
+  height: 270px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #21212122;
+  border: 2px solid #21212122;
+  transition: all 0.2s;
+  border-radius: 5px;
+}
+
+#items .item:hover {
+  background-color: #21212111;
+  border: 2px solid #21212111;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+#items .item h3 {
+  line-height: 1.2rem;
+  width: inherit;
+  padding: 0 20px;
+  text-align: start;
+  margin-bottom: 5px;
+}
+
+#items .item .price {
+  width: inherit;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#items .item .price button {
+  width: auto;
+}
+
+#items .item .thumbnail {
+  height: 150px;
+  margin-bottom: 20px;
+}
+
+#items #pages {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+}
+
+#items #pages p {
+  color: #696969;
+  margin-bottom: 10px;
+}
+
+#items #buttons {
+  display: flex;
+}
+
+#items #buttons #next,
+#items #buttons #previous {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 10px;
+}
+
+#items #buttons #next img,
+#items #buttons #previous img {
+  width: 15px;
+  height: 15px;
+}
+
+#detail #detail-top{
+width: 50vw;
+display:flex;
+align-items:start;
+justify-content:space-between;
+}
+
+#detail #detail-top #info{
+width: 50%;
+margin-left: 30px;
+}
+
+#detail #detail-top #storage{
+margin-top:60px;
+}
+
+#detail #detail-top #price{
+display:flex;
+align-items:center;
+justify-content:space-between;
+margin-top:5px;
+}
+
+#detail #detail-top #image{
+height: 250px;
+display: flex;
+align-items:center;
+justify-content:center;
+}
+
+#detail #detail-top #image img{
+height: inherit;
+}
+
+#detail #detail-bottom h4{
+margin: 20px 0 5px 0;
+padding: 2px 12px;
+display: inline-block;
+color: var(--primary-color);
+background-color: var(--secondary-color);
+border-radius: 5px;
+}
+
+#detail #detail-bottom{
+width: 50vw;
+}
+
+#detail #detail-bottom .parameter{
+display: flex;
+justify-content: space-between;
+padding: 5px 0;
 }

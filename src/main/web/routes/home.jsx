@@ -5,8 +5,8 @@ import Footer from './components/footer.jsx';
 function Home() {
   return (
     <div id="container">
+      <Nav />
       <div id="home">
-        <Nav />
         <Header />
         <Footer />
       </div>

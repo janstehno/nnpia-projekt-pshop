@@ -66,7 +66,6 @@ function Nav() {
                     <div id="links">
                         <a href="/cameras">Fotoaparáty</a>
                         <a href="/lenses">Objektivy</a>
-                        <a href="/tripods">Stativy</a>
                     </div>
                 </div>
             </div>

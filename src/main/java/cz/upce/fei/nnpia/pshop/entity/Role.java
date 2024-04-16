@@ -1,5 +1,6 @@
 package cz.upce.fei.nnpia.pshop.entity;
 
+import cz.upce.fei.nnpia.pshop.entity.enums.RoleE;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,5 +18,5 @@ public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    @Column private String name;
+    @Column private RoleE name;
 }

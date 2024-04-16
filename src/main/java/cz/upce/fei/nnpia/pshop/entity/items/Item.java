@@ -2,20 +2,21 @@ package cz.upce.fei.nnpia.pshop.entity.items;
 
 import cz.upce.fei.nnpia.pshop.entity.ShoppingCart;
 import cz.upce.fei.nnpia.pshop.entity.Order;
+import cz.upce.fei.nnpia.pshop.entity.enums.BrandE;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.validator.constraints.Length;
 
 import java.util.List;
 
 @Data
 @Entity
-@Table(name = "items")
+@SuperBuilder
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @NoArgsConstructor
 @AllArgsConstructor
 public abstract class Item {
@@ -27,12 +28,17 @@ public abstract class Item {
     @NotEmpty
     @Length(max = 70)
     private String name;
-    @Column private String brand;
+    @Column private BrandE brand;
     @Column
     @NotNull
-    @NotEmpty
+    @Min(0)
     private Double price;
-    @Column private Integer inStorage;
+    @Column
+    @NotNull
+    private Integer inStorage;
+    @Column
+    @NotNull
+    private String thumbnail;
     @ManyToMany
     @JoinColumn(name = "carts_id", nullable = false)
     @ToString.Exclude

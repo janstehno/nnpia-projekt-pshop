@@ -28,7 +28,7 @@ public class SecurityConfiguration {
         return http.cors(Customizer.withDefaults())
                    .csrf(AbstractHttpConfigurer::disable)
                    .exceptionHandling(e -> new CustomExceptionHandler())
-                   .authorizeHttpRequests(a -> a.requestMatchers("/auth/**", "/cameras", "/lenses", "/tripods").permitAll())
+                   .authorizeHttpRequests(a -> a.requestMatchers("/auth/**", "/cameras/**", "/lenses/**", "/tripods/**").permitAll())
                    .authorizeHttpRequests(a -> a.anyRequest().authenticated())
                    .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                    .authenticationProvider(authenticationProvider)
