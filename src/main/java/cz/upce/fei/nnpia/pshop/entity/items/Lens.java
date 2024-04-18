@@ -1,5 +1,6 @@
 package cz.upce.fei.nnpia.pshop.entity.items;
 
+import cz.upce.fei.nnpia.pshop.entity.enums.ItemE;
 import cz.upce.fei.nnpia.pshop.entity.enums.LensE;
 import cz.upce.fei.nnpia.pshop.entity.enums.MountE;
 import jakarta.persistence.Column;
@@ -22,4 +23,9 @@ public class Lens extends Item {
     @Column public Double min_focal_length;
     @Column public Double max_focal_length;
     @Column public Boolean built_in_stabilisation;
+
+    @Override
+    public ItemE getItemType() {
+        return ItemE.LENS;
+    }
 }

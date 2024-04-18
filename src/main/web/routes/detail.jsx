@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import axios from './axios';
 
 import Nav from './components/nav.jsx';
@@ -9,6 +10,7 @@ import CameraDetail from './components/detail-camera.jsx';
 import LensDetail from './components/detail-lens.jsx';
 
 function Detail(props) {
+  const { id } = useParams();
   const [item, setItem] = useState([]);
   const [error, setError] = useState(null);
 
@@ -33,6 +35,20 @@ function Detail(props) {
     fetchItem();
   }, []);
 
+  const submitBuy = async (id) => {
+      try{
+          const response = await axios.post(`http://localhost:8080/carts/add/${localStorage['id']}`, { id: item.id, type: item.itemType, count: 1 }, axios.defaults.headers.common['Authorization']);
+      } catch (error){
+          console.error('Error adding product to shopping cart:', error);
+      }
+  }
+
+  const handleBuy = (id) => {
+      if (localStorage['token']) {
+        submitBuy(id);
+      }
+  };
+
   return (
     <div id="container">
       <Nav />
@@ -51,7 +67,7 @@ function Detail(props) {
                 <p id="storage">Skladem {item.inStorage} ks</p>
                 <div id="price">
                   <p>{item.price},- Kč</p>
-                  <button>Koupit</button>
+                  <button onClick={() => handleBuy(item.id)}>Koupit</button>
                 </div>
               </div>
             </div>

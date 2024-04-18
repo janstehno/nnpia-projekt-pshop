@@ -1,6 +1,6 @@
 package cz.upce.fei.nnpia.pshop.service;
 
-import cz.upce.fei.nnpia.pshop.entity.ShoppingCart;
+import cz.upce.fei.nnpia.pshop.entity.Cart;
 import cz.upce.fei.nnpia.pshop.repository.CartRepository;
 import org.springframework.stereotype.Service;
 
@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CartService implements ServiceI<ShoppingCart> {
+public class CartService implements ServiceI<Cart> {
 
     private final CartRepository cartRepository;
 
@@ -17,24 +17,29 @@ public class CartService implements ServiceI<ShoppingCart> {
     }
 
     @Override
-    public List<ShoppingCart> getAll() {
+    public List<Cart> getAll() {
         return cartRepository.findAll();
     }
 
     @Override
-    public ShoppingCart getById(Long id) {
-        Optional<ShoppingCart> cart = cartRepository.findById(id);
+    public Cart getById(Long id) {
+        Optional<Cart> cart = cartRepository.findById(id);
+        return cart.orElse(null);
+    }
+
+    public Cart getByUserId(Long id) {
+        Optional<Cart> cart = cartRepository.findByUserId(id);
         return cart.orElse(null);
     }
 
     @Override
-    public ShoppingCart create(ShoppingCart shoppingCart) {
-        return cartRepository.save(shoppingCart);
+    public Cart create(Cart cart) {
+        return cartRepository.save(cart);
     }
 
     @Override
-    public ShoppingCart update(ShoppingCart shoppingCart) {
-        return cartRepository.save(shoppingCart);
+    public Cart update(Cart cart) {
+        return cartRepository.save(cart);
     }
 
     @Override

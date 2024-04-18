@@ -1,6 +1,5 @@
 * {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5em;
   font-weight: 400;
   margin: 0;
   padding: 0;
@@ -25,8 +24,6 @@ h6 {
   --accent-dark-color: #558B2F;
   --error-color: #D32F2F;
 
-  --menu-height: 80px;
-
   color-scheme: light;
   color: var(--primary-color);
   background-color: var(--secondary-color);
@@ -39,16 +36,15 @@ h6 {
 
 nav {
   width: 100%;
-  height: var(--menu-height);
 }
 
 nav #navigation {
-  height: inherit;
+  height: 70px;
   padding: 0 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: var(--secondary-color);
+  background-color: #212121DD;
 }
 
 nav #navigation a {
@@ -68,25 +64,56 @@ nav #navigation #right {
   align-items: end;
 }
 
-nav #navigation #auth {
-  display: flex;
-  margin-bottom: 5px;
-  margin-right: 10px;
-}
-
-nav #navigation #auth {
-  height: 1.5em;
-  font-size: 0.8em;
-}
-
 nav #navigation #links {
   display: flex;
 }
 
-nav #navigation #username,
-nav #navigation #account,
-nav #navigation #sign-up {
+nav #bar > * {
+  height: 30px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  background-color: var(--secondary-color);
+  font-size: 0.8em;
+}
+
+nav #bar #logged-in {
+  justify-content: space-between;
+}
+
+nav #bar #logged-out {
+  justify-content: end;
+}
+
+nav #bar #auth {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+
+nav #bar #logged-in > * > *, nav #bar #logged-out > * {
   margin-right: 10px;
+}
+
+nav #bar #cart{
+  width: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-color);
+  text-transform: uppercase;
+  font-weight: 800;
+  padding: 0 10px;
+}
+
+nav #bar #cart:hover {
+  cursor: pointer;
+}
+
+nav #bar #cart img{
+  height: 17px;
+  color: var(--primary-color);
+  margin-right: 5px;
 }
 
 #name {
@@ -97,7 +124,8 @@ nav #navigation #sign-up {
 #error,
 #items,
 #detail-product,
-#detail-account {
+#detail-account,
+#shopping-cart {
   padding: 50px 0;
   display: flex;
   flex-direction: column;
@@ -113,7 +141,7 @@ nav #navigation #sign-up {
 }
 
 #footer {
-  height: var(--menu-height);
+  height: 100px;
   padding: 0 20px;
   display: flex;
   flex-direction: column;
@@ -146,7 +174,6 @@ nav #navigation #sign-up {
 #sign {
   min-width: inherit;
   min-height: inherit;
-  padding-top: var(--menu-height);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -219,7 +246,7 @@ button {
   font-weight: 800;
   border: none;
   border-radius: 5px;
-  padding: 0 10px;
+  padding: 3px 10px;
   transition: background-color 0.2s, color 0.2s;
 }
 
@@ -260,10 +287,12 @@ form input#submit {
   border-radius: 5px;
 }
 
-#items .item:hover {
-  background-color: #21212111;
-  border: 2px solid #21212111;
-  transition: background-color 0.2s, color 0.2s;
+#items .item h3 {
+  text-decoration: underline;
+}
+
+#items .item h3:hover {
+  text-decoration: underline;
   cursor: pointer;
 }
 
@@ -398,10 +427,73 @@ form input#submit {
 }
 
 #detail-account #split #sections h3 {
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 
 #success {
   text-align: center;
   margin-top: 15px;
+}
+
+#shopping-cart .item {
+  height: 70px;
+  display: flex;
+  align-items: center;
+}
+
+#shopping-cart .item h3{
+  margin: 0;
+}
+
+#shopping-cart .item .name{
+  flex: 1;
+  margin-right: 60px;
+}
+
+#shopping-cart .item > *{
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+}
+
+#shopping-cart .item .count{
+  height: 30px;
+  width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: none;
+  outline: none;
+}
+
+#shopping-cart .item .price{
+  width: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#shopping-cart .item button{
+  width: 30px;
+  height: 30px;
+  padding: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0;
+}
+
+#shopping-cart .item button.add{
+  margin-right: 15px;
+}
+
+#shopping-cart .item button.subtract{
+  margin-left: 15px;
+}
+
+#shopping-cart .item button.remove{
+  color: var(--primary-color);
+  background-color: var(--error-color);
 }

@@ -23,7 +23,7 @@ function FormAccountName(props) {
       email: user.email || '',
       date: ''
     });
-  }, [user]);
+  }, [formData]);
 
   const validate = (e) => {
     const { id, value } = e.target;

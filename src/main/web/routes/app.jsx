@@ -8,6 +8,7 @@ import SignUp from './sign-up.jsx';
 import Items from './items.jsx';
 import Detail from './detail.jsx';
 import User from './user.jsx';
+import ShoppingCart from './shopping-cart.jsx';
 import Error from './components/error.jsx';
 
 import '../style/app.css'
@@ -25,6 +26,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/lenses" element={<Items name="lenses" />} />
         <Route path="/lenses/:id" element={<Detail name="lenses" />} />
         <Route path="/account/*" element={<User />} />
+        <Route path="/shopping-cart/*" element={<ShoppingCart />} />
         <Route path="*" element={<Error code="404" message="Stránka nenalezena" />} />
       </Routes>
     </Router>

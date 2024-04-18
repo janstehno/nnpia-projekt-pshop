@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserNameUpdate {
+public class UserNameDTO {
     private String firstname;
     private String lastname;
     private String email;

@@ -1,13 +1,23 @@
 package cz.upce.fei.nnpia.pshop.controller;
 
-import cz.upce.fei.nnpia.pshop.entity.ShoppingCart;
+import cz.upce.fei.nnpia.pshop.dto.CartItemDTO;
+import cz.upce.fei.nnpia.pshop.entity.Cart;
+import cz.upce.fei.nnpia.pshop.entity.User;
+import cz.upce.fei.nnpia.pshop.entity.connection.CartItem;
+import cz.upce.fei.nnpia.pshop.entity.enums.ItemE;
+import cz.upce.fei.nnpia.pshop.entity.items.Item;
+import cz.upce.fei.nnpia.pshop.security.jwt.JwtService;
 import cz.upce.fei.nnpia.pshop.service.CartService;
+import cz.upce.fei.nnpia.pshop.service.UserService;
+import cz.upce.fei.nnpia.pshop.service.connection.CartItemService;
+import cz.upce.fei.nnpia.pshop.service.items.CameraService;
+import cz.upce.fei.nnpia.pshop.service.items.LensService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
 import java.util.List;
 
 @RestController
@@ -17,51 +27,91 @@ public class CartController {
 
     private final CartService service;
 
-    @GetMapping()
-    public List<ShoppingCart> getAllCarts() {
-        return service.getAll();
-    }
+    private final UserService userService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ShoppingCart> getCartById(
+    private final CameraService cameraService;
+
+    private final LensService lensService;
+
+    private final CartItemService cartItemService;
+
+    private final JwtService jwtService;
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<List<CartItem>> getCartById(
             @PathVariable
-            Long id) {
-        ShoppingCart shoppingCart = service.getById(id);
-        if (shoppingCart != null) {
-            return ResponseEntity.ok(shoppingCart);
+            Long userId,
+            @RequestHeader("Authorization")
+            String token) {
+        User user = userService.getById(userId);
+        String username = jwtService.extractUsername(token.substring(7));
+        Cart cart = service.getByUserId(userId);
+        if (user != null && username.equals(user.getUsername())) {
+            List<CartItem> cartItems = cartItemService.getByCartId(cart.getId());
+            cartItems.sort(Comparator.comparing(o -> o.getItem().getName()));
+            return ResponseEntity.ok(cartItems);
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(403).build();
         }
     }
 
-    @PostMapping("/new")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Void> createCart(
+    @PostMapping("/add/{userId}")
+    public ResponseEntity<Void> addItem(
+            @PathVariable
+            Long userId,
             @RequestBody
             @Valid
-            ShoppingCart shoppingCart) {
-        service.create(shoppingCart);
-        return ResponseEntity.noContent().build();
+            CartItemDTO cartItemDTO,
+            @RequestHeader("Authorization")
+            String token) {
+        User user = userService.getById(userId);
+        String username = jwtService.extractUsername(token.substring(7));
+        Cart cart = service.getByUserId(userId);
+        if (cart != null && user != null && username.equals(user.getUsername())) {
+            CartItem foundCartItem = cartItemService.getByCartIdAndItemIdAndType(cart.getId(), cartItemDTO.getId(), cartItemDTO.getType());
+            if (foundCartItem != null) {
+                foundCartItem.setCount(cartItemDTO.getCount());
+                cartItemService.update(foundCartItem);
+            } else {
+                Item item = null;
+                if (cartItemDTO.getType().equals(ItemE.CAMERA)) {
+                    item = cameraService.getById(cartItemDTO.getId());
+                } else if (cartItemDTO.getType().equals(ItemE.LENS)) {
+                    item = lensService.getById(cartItemDTO.getId());
+                }
+                if (item != null) {
+                    CartItem cartItem = CartItem.builder().itemType(cartItemDTO.getType()).cart(cart).item(item).count(cartItemDTO.getCount()).build();
+                    cartItemService.create(cartItem);
+                }
+            }
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.status(403).build();
+        }
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<Void> updateUser(
+    @PostMapping("/remove/{userId}")
+    public ResponseEntity<Void> removeItem(
             @PathVariable
-            Long id,
+            Long userId,
             @RequestBody
             @Valid
-            ShoppingCart shoppingCart) {
-        service.update(shoppingCart);
-        return ResponseEntity.noContent().build();
-    }
-
-    @DeleteMapping("/delete/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Void> deleteUser(
-            @PathVariable
-            Long id) {
-        service.deleteById(id);
-        return ResponseEntity.noContent().build();
+            CartItem cartItem,
+            @RequestHeader("Authorization")
+            String token) {
+        User user = userService.getById(userId);
+        String username = jwtService.extractUsername(token.substring(7));
+        if (user != null && username.equals(user.getUsername())) {
+            CartItem foundCartItem = cartItemService.getById(cartItem.getId());
+            if (foundCartItem != null) {
+                cartItemService.deleteById(foundCartItem.getId());
+                return ResponseEntity.noContent().build();
+            } else {
+                return ResponseEntity.status(404).build();
+            }
+        } else {
+            return ResponseEntity.status(403).build();
+        }
     }
 
 }

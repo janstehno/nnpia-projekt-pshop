@@ -34,15 +34,5 @@ public class OrderController {
         }
     }
 
-    @PostMapping("/new")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Void> createOrder(
-            @RequestBody
-            @Valid
-            Order order) {
-        service.create(order);
-        return ResponseEntity.noContent().build();
-    }
-
 }
 

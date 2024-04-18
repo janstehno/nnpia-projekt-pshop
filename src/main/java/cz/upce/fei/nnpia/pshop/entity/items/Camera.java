@@ -1,6 +1,7 @@
 package cz.upce.fei.nnpia.pshop.entity.items;
 
 import cz.upce.fei.nnpia.pshop.entity.enums.CameraE;
+import cz.upce.fei.nnpia.pshop.entity.enums.ItemE;
 import cz.upce.fei.nnpia.pshop.entity.enums.MountE;
 import cz.upce.fei.nnpia.pshop.entity.enums.SensorE;
 import jakarta.persistence.Column;
@@ -30,4 +31,9 @@ public class Camera extends Item {
     @Column public Double sensor_resolution_height;
     @Column public Boolean touch_screen;
     @Column public Boolean rotatable_screen;
+
+    @Override
+    public ItemE getItemType() {
+        return ItemE.CAMERA;
+    }
 }

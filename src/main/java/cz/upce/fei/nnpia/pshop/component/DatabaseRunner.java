@@ -1,10 +1,12 @@
 package cz.upce.fei.nnpia.pshop.component;
 
+import cz.upce.fei.nnpia.pshop.entity.Cart;
 import cz.upce.fei.nnpia.pshop.entity.Role;
 import cz.upce.fei.nnpia.pshop.entity.User;
 import cz.upce.fei.nnpia.pshop.entity.enums.*;
 import cz.upce.fei.nnpia.pshop.entity.items.Camera;
 import cz.upce.fei.nnpia.pshop.entity.items.Lens;
+import cz.upce.fei.nnpia.pshop.repository.CartRepository;
 import cz.upce.fei.nnpia.pshop.repository.RoleRepository;
 import cz.upce.fei.nnpia.pshop.repository.UserRepository;
 import cz.upce.fei.nnpia.pshop.repository.items.CameraRepository;
@@ -24,6 +26,8 @@ public class DatabaseRunner implements ApplicationRunner {
     private final RoleRepository roleRepository;
 
     private final UserRepository userRepository;
+
+    private final CartRepository cartRepository;
 
     private final CameraRepository cameraRepository;
 
@@ -45,14 +49,16 @@ public class DatabaseRunner implements ApplicationRunner {
     }
 
     private void users() {
-        userRepository.save(User.builder()
-                                .firstname("Jan")
-                                .lastname("Stehno")
-                                .email("honzastehno@email.cz")
-                                .username("janstehno")
-                                .password(passwordEncoder.encode("password"))
-                                .roles(Set.of(roleRepository.findByName(RoleE.USER).orElseThrow()))
-                                .build());
+        User user = User.builder()
+                        .firstname("Jan")
+                        .lastname("Stehno")
+                        .email("honzastehno@email.cz")
+                        .username("janstehno")
+                        .password(passwordEncoder.encode("password"))
+                        .roles(Set.of(roleRepository.findByName(RoleE.USER).orElseThrow()))
+                        .build();
+        userRepository.save(user);
+        cartRepository.save(Cart.builder().user(user).build());
     }
 
     private void cameras() {

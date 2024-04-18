@@ -13,13 +13,13 @@ function Items(props) {
 
   useEffect(() => {
     const fetchItems = async () => {
-      const res = await axios.get(`http://localhost:8080/${props.name}/pages?page=${page}&size=${size}`);
-      setItems(res.data.content);
-      setTotalSize(Math.ceil(res.data.totalElements / size));
+      const response = await axios.get(`http://localhost:8080/${props.name}/pages?page=${page}&size=${size}`);
+      setItems(response.data.content);
+      setTotalSize(Math.ceil(response.data.totalElements / size));
     };
 
     fetchItems();
-  }, [items, page, size, props.name]);
+  }, []);
 
   const handleNext = () => {
     setPage(Math.min(totalSize - 1, page + 1));
@@ -42,8 +42,8 @@ function Items(props) {
         <div id="pages">
           <p>{page + 1} / {totalSize}</p>
           <div id="buttons">
-            <button id="previous" onClick={handlePrev}><img src="previous.svg" alt="Předchozí" /></button>
-            <button id="next" onClick={handleNext}><img src="next.svg" alt="Předchozí" /></button>
+            <button id="previous" onClick={handlePrev}><img src="/previous.svg" alt="Předchozí" /></button>
+            <button id="next" onClick={handleNext}><img src="/next.svg" alt="Předchozí" /></button>
           </div>
         </div>
       </div>

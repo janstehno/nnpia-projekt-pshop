@@ -1,8 +1,7 @@
 package cz.upce.fei.nnpia.pshop.entity.items;
 
-import cz.upce.fei.nnpia.pshop.entity.ShoppingCart;
-import cz.upce.fei.nnpia.pshop.entity.Order;
 import cz.upce.fei.nnpia.pshop.entity.enums.BrandE;
+import cz.upce.fei.nnpia.pshop.entity.enums.ItemE;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
@@ -10,8 +9,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.validator.constraints.Length;
-
-import java.util.List;
 
 @Data
 @Entity
@@ -39,12 +36,6 @@ public abstract class Item {
     @Column
     @NotNull
     private String thumbnail;
-    @ManyToMany
-    @JoinColumn(name = "carts_id", nullable = false)
-    @ToString.Exclude
-    private List<ShoppingCart> shoppingCarts;
-    @ManyToMany
-    @JoinColumn(name = "orders_id", nullable = false)
-    @ToString.Exclude
-    private List<Order> orders;
+
+    public abstract ItemE getItemType();
 }

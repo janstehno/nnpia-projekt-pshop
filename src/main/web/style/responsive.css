@@ -5,27 +5,27 @@
 }
 
 @media only screen and (max-width: 1000px) {
-    #detail #detail-top {
+    #detail-product #detail-top {
         width: 90vw;
         flex-direction: column;
         align-items: center;
     }
 
-    #detail #detail-top #info {
+    #detail-product #detail-top #info {
         width: 90vw;
         margin-top: 40px;
         margin-left: 0;
     }
 
-    #detail #detail-top #storage {
+    #detail-product #detail-top #storage {
         margin-top: 30px;
     }
 
-    #detail #detail-top #price {
+    #detail-product #detail-top #price {
         margin-bottom: 20px;
     }
 
-    #detail #detail-bottom {
+    #detail-product #detail-bottom {
         width: 90vw;
     }
 }
@@ -37,11 +37,11 @@
 }
 
 @media only screen and (max-width: 500px) {
-    #detail #detail-bottom .parameter .name {
+    #detail-product #detail-bottom .parameter .name {
         font-weight: 600;
     }
 
-    #detail #detail-bottom .parameter {
+    #detail-product #detail-bottom .parameter {
         flex-direction: column;
     }
 }

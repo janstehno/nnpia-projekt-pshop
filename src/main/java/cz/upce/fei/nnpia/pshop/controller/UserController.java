@@ -1,7 +1,7 @@
 package cz.upce.fei.nnpia.pshop.controller;
 
-import cz.upce.fei.nnpia.pshop.dto.UserNameUpdate;
-import cz.upce.fei.nnpia.pshop.dto.UserPasswordUpdate;
+import cz.upce.fei.nnpia.pshop.dto.UserNameDTO;
+import cz.upce.fei.nnpia.pshop.dto.UserPasswordDTO;
 import cz.upce.fei.nnpia.pshop.entity.User;
 import cz.upce.fei.nnpia.pshop.exception.CustomExceptionHandler;
 import cz.upce.fei.nnpia.pshop.repository.UserRepository;
@@ -52,23 +52,13 @@ public class UserController {
         }
     }
 
-    @PostMapping("/new")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Void> createUser(
-            @RequestBody
-            @Valid
-            User user) {
-        service.create(user);
-        return ResponseEntity.noContent().build();
-    }
-
     @PutMapping("/update/{id}")
     public ResponseEntity<?> updateUser(
             @PathVariable
             Long id,
             @RequestBody
             @Valid
-            UserNameUpdate data,
+            UserNameDTO data,
             @RequestHeader("Authorization")
             String token) {
         User user = service.getById(id);
@@ -95,7 +85,7 @@ public class UserController {
             Long id,
             @RequestBody
             @Valid
-            UserPasswordUpdate data,
+            UserPasswordDTO data,
             @RequestHeader("Authorization")
             String token) {
         User user = service.getById(id);
