@@ -1,16 +1,21 @@
 package cz.upce.fei.nnpia.pshop.component;
 
 import cz.upce.fei.nnpia.pshop.entity.Role;
+import cz.upce.fei.nnpia.pshop.entity.User;
 import cz.upce.fei.nnpia.pshop.entity.enums.*;
 import cz.upce.fei.nnpia.pshop.entity.items.Camera;
 import cz.upce.fei.nnpia.pshop.entity.items.Lens;
 import cz.upce.fei.nnpia.pshop.repository.RoleRepository;
+import cz.upce.fei.nnpia.pshop.repository.UserRepository;
 import cz.upce.fei.nnpia.pshop.repository.items.CameraRepository;
 import cz.upce.fei.nnpia.pshop.repository.items.LensRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+
+import java.util.Set;
 
 @Component
 @AllArgsConstructor
@@ -18,13 +23,18 @@ public class DatabaseRunner implements ApplicationRunner {
 
     private final RoleRepository roleRepository;
 
+    private final UserRepository userRepository;
+
     private final CameraRepository cameraRepository;
 
     private final LensRepository lensRepository;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Override
     public void run(ApplicationArguments args) {
         roles();
+        users();
         cameras();
         lenses();
     }
@@ -32,6 +42,17 @@ public class DatabaseRunner implements ApplicationRunner {
     private void roles() {
         roleRepository.save(Role.builder().name(RoleE.ADMIN).build());
         roleRepository.save(Role.builder().name(RoleE.USER).build());
+    }
+
+    private void users() {
+        userRepository.save(User.builder()
+                                .firstname("Jan")
+                                .lastname("Stehno")
+                                .email("honzastehno@email.cz")
+                                .username("janstehno")
+                                .password(passwordEncoder.encode("password"))
+                                .roles(Set.of(roleRepository.findByName(RoleE.USER).orElseThrow()))
+                                .build());
     }
 
     private void cameras() {

@@ -1,15 +1,19 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import axios from '../axios';
 
 function Nav() {
+    let navigate = useNavigate();
+
     const [loggedIn, setLoggedIn] = useState(false);
     const [username, setUsername] = useState({ firstname: '', lastname: '' });
 
     const checkLoggedIn = async () => {
         try {
+            const id = localStorage['id'];
             const firstname = localStorage['firstname'];
             const lastname = localStorage['lastname'];
-            if (firstname != null && lastname != null) {
+            if (id != null && firstname != null && lastname != null) {
                 setLoggedIn(true);
                 setUsername({ firstname: firstname, lastname: lastname });
             } else {
@@ -29,12 +33,16 @@ function Nav() {
     const handleLogout = async () => {
         try {
             delete axios.defaults.headers.common['Authorization'];
-            localStorage.removeItem('firstname');
-            localStorage.removeItem('lastname');
+            localStorage.clear();
             setLoggedIn(false);
+            navigate('/');
         } catch (error) {
             console.error('Error logging out:', error);
         }
+    };
+
+    const handleAccount = async () => {
+        location.href = "/account";
     };
 
     const handleSignUp = async () => {
@@ -50,10 +58,11 @@ function Nav() {
             <div id="navigation">
                 <a id="title" href="/"><h3>Pshop</h3></a>
                 <div id="right">
-                    <div id="account">
+                    <div id="auth">
                         {loggedIn ? (
                             <>
                                 <p id="username">{username.firstname} {username.lastname}</p>
+                                <button id="account" onClick={handleAccount}>Účet</button>
                                 <button id="logout" onClick={handleLogout}>Odhlásit</button>
                             </>
                         ) : (

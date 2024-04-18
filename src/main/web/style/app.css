@@ -37,31 +37,9 @@ h6 {
   -moz-osx-font-smoothing: grayscale;
 }
 
-input#submit,
-button {
-  width: inherit;
-  color: var(--secondary-color);
-  background-color: var(--accent-color);
-  text-transform: uppercase;
-  font-size: 0.8em;
-  font-weight: 800;
-  border: none;
-  border-radius: 5px;
-  padding: 0 10px;
-  transition: all 0.2s;
-}
-
-input#submit:hover,
-button:hover {
-  background-color: var(--accent-light-color);
-  transition: all 0.2s;
-  cursor: pointer;
-}
-
 nav {
   width: 100%;
   height: var(--menu-height);
-  position: fixed;
 }
 
 nav #navigation {
@@ -90,13 +68,13 @@ nav #navigation #right {
   align-items: end;
 }
 
-nav #navigation #account {
+nav #navigation #auth {
   display: flex;
   margin-bottom: 5px;
   margin-right: 10px;
 }
 
-nav #navigation #account {
+nav #navigation #auth {
   height: 1.5em;
   font-size: 0.8em;
 }
@@ -106,28 +84,27 @@ nav #navigation #links {
 }
 
 nav #navigation #username,
+nav #navigation #account,
 nav #navigation #sign-up {
   margin-right: 10px;
+}
+
+#name {
+  margin-bottom: 30px;
 }
 
 #header,
 #error,
 #items,
-#detail {
-  min-height: calc(100vh - var(--menu-height));
-  padding-top: var(--menu-height);
+#detail-product,
+#detail-account {
+  padding: 50px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   color: var(--secondary-color);
   background-color: var(--primary-color);
-}
-
-
-#items,
-#detail {
-  padding-bottom: var(--menu-height);
 }
 
 #header {
@@ -181,56 +158,85 @@ nav #navigation #sign-up {
   margin-bottom: 10px;
 }
 
-#sign-form {
+form {
   width: 250px;
   display: flex;
   flex-direction: column;
 }
 
-#sign-form label {
+form label {
   margin-left: 3px;
   margin-top: 15px;
   margin-bottom: 5px;
   font-size: 0.75em;
 }
 
-#sign-form input {
+form input,
+form span {
   width: inherit;
   height: 40px;
   padding: 0 10px;
   border: none;
   border-radius: 5px;
+  text-align: center-left;
+  font-size: 0.9rem;
+  background-color: #FFFFFF;
 }
 
-#sign-form input#submit {
-  margin-top: 20px;
+form span {
+  display: flex;
+  align-items: center;
+  color: #696969;
+  background-color: #DEDEDE;
 }
 
-#sign-form input:focus {
+form input:focus {
   outline: none;
 }
 
-#sign-form .error {
+form .error {
   color: var(--error-color);
   padding: 3px 10px;
   font-size: 0.6em;
   font-weight: 600;
 }
 
-#sign-form .valid {
+form .valid {
   border: none;
 }
 
-#sign-form .invalid {
+form .invalid {
   border: 3px var(--error-color) solid;
 }
 
-#items, #detail {
-  justify-content: space-between;
+input#submit,
+button {
+  width: inherit;
+  color: var(--secondary-color);
+  background-color: var(--accent-color);
+  text-transform: uppercase;
+  font-size: 0.8em;
+  font-weight: 800;
+  border: none;
+  border-radius: 5px;
+  padding: 0 10px;
+  transition: background-color 0.2s, color 0.2s;
 }
 
-#items h1, #detail h1 {
-  padding: 30px;
+input#submit:hover,
+button:hover {
+  background-color: var(--accent-light-color);
+  transition: background-color 0.2s, color 0.2s;
+  cursor: pointer;
+}
+
+form input#submit {
+  margin-top: 20px;
+}
+
+#items,
+#detail-product {
+  justify-content: space-between;
 }
 
 #items #wrap {
@@ -238,7 +244,7 @@ nav #navigation #sign-up {
   display: grid;
   grid-template-columns: repeat(auto-fill, 270px);
   grid-gap: 50px;
-  justify-content:center;
+  justify-content: center;
 }
 
 #items .item {
@@ -250,14 +256,14 @@ nav #navigation #sign-up {
   justify-content: center;
   background-color: #21212122;
   border: 2px solid #21212122;
-  transition: all 0.2s;
+  transition: background-color 0.2s, color 0.2s;
   border-radius: 5px;
 }
 
 #items .item:hover {
   background-color: #21212111;
   border: 2px solid #21212111;
-  transition: all 0.2s;
+  transition: background-color 0.2s, color 0.2s;
   cursor: pointer;
 }
 
@@ -291,7 +297,7 @@ nav #navigation #sign-up {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 30px;
+  padding-top: 30px;
 }
 
 #items #pages p {
@@ -319,55 +325,83 @@ nav #navigation #sign-up {
   height: 15px;
 }
 
-#detail #detail-top{
-width: 50vw;
-display:flex;
-align-items:start;
-justify-content:space-between;
+#detail-product #detail-top {
+  width: 50vw;
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
 }
 
-#detail #detail-top #info{
-width: 50%;
-margin-left: 30px;
+#detail-product #detail-top #info {
+  width: 50%;
+  margin-left: 30px;
 }
 
-#detail #detail-top #storage{
-margin-top:60px;
+#detail-product #detail-top #storage {
+  margin-top: 60px;
 }
 
-#detail #detail-top #price{
-display:flex;
-align-items:center;
-justify-content:space-between;
-margin-top:5px;
+#detail-product #detail-top #price {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 5px;
 }
 
-#detail #detail-top #image{
-height: 250px;
-display: flex;
-align-items:center;
-justify-content:center;
+#detail-product #detail-top #image {
+  height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-#detail #detail-top #image img{
-height: inherit;
+#detail-product #detail-top #image img {
+  height: inherit;
 }
 
-#detail #detail-bottom h4{
-margin: 20px 0 5px 0;
-padding: 2px 12px;
-display: inline-block;
-color: var(--primary-color);
-background-color: var(--secondary-color);
-border-radius: 5px;
+#detail-product #detail-bottom {
+  width: 50vw;
 }
 
-#detail #detail-bottom{
-width: 50vw;
+#detail-product #detail-bottom h4 {
+  margin: 20px 0 5px 0;
+  padding: 2px 12px;
+  display: inline-block;
+  color: var(--primary-color);
+  background-color: var(--secondary-color);
+  border-radius: 5px;
 }
 
-#detail #detail-bottom .parameter{
-display: flex;
-justify-content: space-between;
-padding: 5px 0;
+#detail-product #detail-bottom .parameter {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+}
+
+#detail-account #split {
+  display: flex;
+
+}
+
+#detail-account #split #sections {
+  margin-top: 35px;
+  margin-right: 50px;
+}
+
+#detail-account #split #sections a {
+  text-decoration: none;
+  color: var(--secondary-color);
+}
+
+#detail-account #split #sections a#active {
+  color: var(--accent-color);
+}
+
+#detail-account #split #sections h3 {
+  margin-bottom: 5px;
+}
+
+#success {
+  text-align: center;
+  margin-top: 15px;
 }

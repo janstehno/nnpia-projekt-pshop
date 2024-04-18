@@ -28,7 +28,7 @@ public class SpringConfiguration implements WebMvcConfigurer {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return username -> userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Username not found"));
+        return username -> userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Uživatelské jméno neexistuje"));
     }
 
     @Bean

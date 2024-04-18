@@ -1,9 +1,12 @@
-import axios from 'axios';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from './axios';
 
 import Nav from './components/nav.jsx';
 
 function SignUp() {
+  let navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     username: '',
     password: ''
@@ -17,10 +20,12 @@ function SignUp() {
   const submitForm = async (formData) => {
     try {
       const response = await axios.post('http://localhost:8080/auth/login', formData);
+      localStorage['id'] = response.data['id'];
       localStorage['firstname'] = response.data['firstname'];
       localStorage['lastname'] = response.data['lastname'];
+      localStorage.setItem('token', response.data.token);
       axios.defaults.headers.common['Authorization'] = `Bearer ${response.data['token']}`;
-      window.location.href = '/';
+      navigate('/');
     } catch (error) {
       if (error.response.data['message'] === "USERNAME_NOT_FOUND") {
         setErrorMessages({ ...errorMessages, username: 'Toto uživatelské jméno neexistuje' });
@@ -38,7 +43,7 @@ function SignUp() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!Object.values(errorMessages).some(message => message !== '') && Object.values(formData).some(message => message !== '')) {
+    if (!Object.values(errorMessages).some(e => e !== '') && Object.values(formData).some(e => e !== '')) {
       submitForm(formData);
     }
   };
@@ -52,7 +57,7 @@ function SignUp() {
       <Nav />
       <div id="sign">
         <h1>Přihlášení</h1>
-        <form id="sign-form" onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
           <label htmlFor="username">Uživatelské jméno</label>
           <input className={!isNotEmpty(errorMessages.username) || !isNotEmpty(formData.username) ? 'valid' : 'invalid'} id="username" name="username" type="text" onChange={handleChange} />
           {errorMessages.username && <p className="error">{errorMessages.username}</p>}

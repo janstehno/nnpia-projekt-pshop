@@ -1,6 +1,7 @@
 package cz.upce.fei.nnpia.pshop.security;
 
 import cz.upce.fei.nnpia.pshop.entity.User;
+import cz.upce.fei.nnpia.pshop.entity.enums.RoleE;
 import cz.upce.fei.nnpia.pshop.exception.CustomExceptionHandler;
 import cz.upce.fei.nnpia.pshop.repository.RoleRepository;
 import cz.upce.fei.nnpia.pshop.repository.UserRepository;
@@ -52,15 +53,11 @@ public class AuthService {
                               .password(passwordEncoder.encode(registerRequest.getPassword()))
                               .creation_date(LocalDateTime.now())
                               .update_date(LocalDateTime.now())
-                              .roles(Set.of(roleRepository.findByName("USER").orElseThrow()))
+                              .roles(Set.of(roleRepository.findByName(RoleE.USER).orElseThrow()))
                               .build();
         userRepository.save(user);
-        final String token = jwtService.generateToken(registerRequest.getUsername());
-        return ResponseEntity.ok(AuthenticationResponse.builder()
-                                                       .firstname(registerRequest.getFirstname())
-                                                       .lastname(registerRequest.getLastname())
-                                                       .token(token)
-                                                       .build());
+        final Optional<User> found = userRepository.findByUsername(registerRequest.getUsername());
+        return returnUser(found.orElseThrow());
     }
 
     public ResponseEntity<?> login(LoginRequest loginRequest) {
@@ -71,14 +68,19 @@ public class AuthService {
             } catch (AuthenticationException e) {
                 return new ResponseEntity<>(new CustomExceptionHandler.WrongPasswordException("WRONG_PASSWORD"), HttpStatus.FORBIDDEN);
             }
-            final String token = jwtService.generateToken(loginRequest.getUsername());
-            return ResponseEntity.ok(AuthenticationResponse.builder()
-                                                           .firstname(found.orElseThrow().getFirstname())
-                                                           .lastname(found.orElseThrow().getLastname())
-                                                           .token(token)
-                                                           .build());
+            return returnUser(found.orElseThrow());
         } else {
             return new ResponseEntity<>(new CustomExceptionHandler.UsernameNotFoundException("USERNAME_NOT_FOUND"), HttpStatus.FORBIDDEN);
         }
+    }
+
+    private ResponseEntity<?> returnUser(User user) {
+        final String token = jwtService.generateToken(user.getUsername());
+        return ResponseEntity.ok(AuthenticationResponse.builder()
+                                                       .id(user.getId())
+                                                       .firstname(user.getFirstname())
+                                                       .lastname(user.getLastname())
+                                                       .token(token)
+                                                       .build());
     }
 }

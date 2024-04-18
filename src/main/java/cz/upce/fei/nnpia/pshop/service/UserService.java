@@ -2,19 +2,18 @@ package cz.upce.fei.nnpia.pshop.service;
 
 import cz.upce.fei.nnpia.pshop.entity.User;
 import cz.upce.fei.nnpia.pshop.repository.UserRepository;
+import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class UserService implements ServiceI<User> {
 
     private final UserRepository userRepository;
-
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     @Override
     public List<User> getAll() {

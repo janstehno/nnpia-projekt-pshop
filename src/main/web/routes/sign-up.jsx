@@ -1,9 +1,12 @@
-import axios from 'axios';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from './axios';
 
 import Nav from './components/nav.jsx';
 
 function SignUp() {
+  let navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     firstname: '',
     lastname: '',
@@ -23,10 +26,12 @@ function SignUp() {
   const submitForm = async (formData) => {
     try {
       const response = await axios.post('http://localhost:8080/auth/register', formData);
+      localStorage['id'] = response.data['id'];
       localStorage['firstname'] = response.data['firstname'];
       localStorage['lastname'] = response.data['lastname'];
+      localStorage.setItem('token', response.data.token);
       axios.defaults.headers.common['Authorization'] = `Bearer ${response.data['token']}`;
-      window.location.href = '/';
+      navigate('/');
     } catch (error) {
       if (error.response.data['message'] === "EMAIL_EXISTS") {
         setErrorMessages({ ...errorMessages, email: 'Tento email je používaný' });
@@ -45,7 +50,7 @@ function SignUp() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (!Object.values(errorMessages).some(message => message !== '') && Object.values(formData).some(message => message !== '')) {
+    if (!Object.values(errorMessages).some(e => e !== '') && Object.values(formData).some(e => e !== '')) {
       submitForm(formData);
     }
   };
@@ -98,7 +103,7 @@ function SignUp() {
       <Nav />
       <div id="sign">
         <h1>Registrace</h1>
-        <form id="sign-form" onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
           <label htmlFor="firstname">Jméno</label>
           <input className={!isNotEmpty(errorMessages.firstname) || !isNotEmpty(errorMessages.firstname) ? 'valid' : 'invalid'} id="firstname" name="firstname" type="text" onChange={handleChange} />
           {errorMessages.firstname && <p className="error">{errorMessages.firstname}</p>}

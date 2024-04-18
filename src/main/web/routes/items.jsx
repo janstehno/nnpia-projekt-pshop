@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from './axios';
 
 import Nav from './components/nav.jsx';
 import Footer from './components/footer.jsx';
@@ -33,10 +33,10 @@ function Items(props) {
     <div id="container">
       <Nav />
       <div id="items">
-        <h1>{props.name}</h1>
+        <h1 id="name">{props.name}</h1>
         <div id="wrap">
           {items.map((item) => (
-            <Item key={item.id} item={item} />
+            <Item key={item.id} name={props.name} item={item} />
           ))}
         </div>
         <div id="pages">

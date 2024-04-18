@@ -5,6 +5,7 @@ import cz.upce.fei.nnpia.pshop.service.CartService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,6 +35,7 @@ public class CartController {
     }
 
     @PostMapping("/new")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Void> createCart(
             @RequestBody
             @Valid
@@ -54,6 +56,7 @@ public class CartController {
     }
 
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Void> deleteUser(
             @PathVariable
             Long id) {
