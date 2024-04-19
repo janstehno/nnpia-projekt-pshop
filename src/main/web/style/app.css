@@ -261,17 +261,28 @@ form input#submit {
   margin-top: 20px;
 }
 
+#items #row {
+  width: 100%;
+  display: flex;
+  align-items: start;
+  justify-content: start;
+}
+
+#items #pages{
+  flex: 1;
+}
+
 #items,
 #detail-product {
   justify-content: space-between;
 }
 
 #items #wrap {
-  width: 60vw;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, 270px);
+  margin: 0 50px;
+  display: flex;
+  flex-wrap: wrap;
   grid-gap: 50px;
-  justify-content: center;
+  justify-content: start;
 }
 
 #items .item {
@@ -321,15 +332,15 @@ form input#submit {
   margin-bottom: 20px;
 }
 
-#items #pages {
+#items #controls {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-top: 30px;
+  margin-top: 30px;
 }
 
-#items #pages p {
+#items #controls p {
   color: #696969;
   margin-bottom: 10px;
 }
@@ -352,6 +363,81 @@ form input#submit {
 #items #buttons #previous img {
   width: 15px;
   height: 15px;
+}
+
+#items #filters {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  padding-left: 30px;
+}
+
+#items #filters .filter{
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+#items #filters .filter h3{
+  margin-bottom: 5px;
+}
+
+#items #filters .filter label{
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  margin-bottom: 5px;
+}
+
+#items #filters .filter input{
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+#items #filters .filter .box {
+  position: absolute;
+  top: 2.5px;
+  left: 2.5px;
+  height: 15px;
+  width: 15px;
+  border-radius: 5px;
+  background-color: #DEDEDE;
+}
+
+#items #filters .filter label input:checked ~ .box {
+  background-color: var(--accent-color);
+}
+
+#items #filters .filter .box:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+#items #filters .filter label input:checked ~ .box:after {
+  display: block;
+}
+
+#items #filters .filter .box:after {
+  left: 5px;
+  top: 2.5px;
+  width: 4px;
+  height: 7px;
+  border: solid var(--secondary-color);
+  border-width: 0 1px 1px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
 }
 
 #detail-product #detail-top {

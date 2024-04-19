@@ -4,47 +4,113 @@ import axios from './axios';
 import Nav from './components/nav.jsx';
 import Footer from './components/footer.jsx';
 import Item from './components/item.jsx';
+import FilterList from './components/filter-list.jsx';
 
 function Items(props) {
-  const [items, setItems] = useState([]);
-  const [page, setPage] = useState(0);
-  const [size, setSize] = useState(6);
-  const [totalSize, setTotalSize] = useState(0);
+  const [items, setItems] = useState({
+    items: [],
+    filteredItems: [],
+  });
+  const [paging, setPaging] = useState({
+    page: 0,
+    totalPages: 0,
+    size: 6,
+  });
+  const [filter, setFilter] = useState({
+    brands: {},
+    types: {},
+  });
 
   useEffect(() => {
     const fetchItems = async () => {
-      const response = await axios.get(`http://localhost:8080/${props.name}/pages?page=${page}&size=${size}`);
-      setItems(response.data.content);
-      setTotalSize(Math.ceil(response.data.totalElements / size));
+      const response = await axios.get(`http://localhost:8080/${props.name}`);
+      setItems((prevItems) => ({ ...prevItems, items: response.data }));
     };
 
     fetchItems();
-  }, []);
+  }, [props.name]);
+
+  useEffect(() => {
+    const fetchFilters = () => {
+      const brands = {};
+      const types = {};
+      items.items.forEach((item) => {
+        brands[item.brand] = false;
+        types[item.type] = false;
+      });
+      setFilter({ brands, types });
+    };
+
+    fetchFilters();
+  }, [items.items]);
+
+  useEffect(() => {
+    const filtered = items.items.filter((item) => {
+      return (
+        (!isFilterActive('brands') || filter.brands[item.brand]) &&
+        (!isFilterActive('types') || filter.types[item.type])
+      );
+    });
+    setItems((prevItems) => ({ ...prevItems, filteredItems: filtered }));
+    setPaging((prevPaging) => ({ ...prevPaging, page: 0 }));
+  }, [items.items, filter]);
+
+  useEffect(() => {
+    const newTotalPages = Math.ceil(items.filteredItems.length / paging.size);
+    setPaging((prevPaging) => ({ ...prevPaging, totalPages: newTotalPages }));
+  }, [items.filteredItems, paging.size]);
 
   const handleNext = () => {
-    setPage(Math.min(totalSize - 1, page + 1));
+    setPaging((prevPaging) => ({ ...prevPaging, page: Math.min(paging.totalPages - 1, paging.page + 1) }));
   };
 
   const handlePrev = () => {
-    setPage(Math.max(0, page - 1));
+    setPaging((prevPaging) => ({ ...prevPaging, page: Math.max(0, paging.page - 1) }));
   };
+
+  const handleFilterChange = (category, value) => {
+    const updatedFilter = { ...filter, [category]: { ...filter[category], [value]: !filter[category][value] } };
+    setFilter(updatedFilter);
+  };
+
+  const isFilterActive = (category) => {
+    return Object.values(filter[category]).some(Boolean);
+  };
+
+  const pagedItems = items.filteredItems.slice(paging.page * paging.size, (paging.page + 1) * paging.size);
 
   return (
     <div id="container">
       <Nav />
       <div id="items">
-        <h1 id="name">{props.name}</h1>
-        <div id="wrap">
-          {items.map((item) => (
-            <Item key={item.id} name={props.name} item={item} />
-          ))}
+        <h1 id="name">{props.name === "cameras" ? "Fotoaparáty" : "Objektivy"}</h1>
+        <div id="row">
+            <div id="filters">
+              <FilterList
+                  name="Výrobce"
+                  options={filter.brands}
+                  onChange={(option) => handleFilterChange('brands', option)}
+              />
+              <FilterList
+                  name="Typ"
+                  options={filter.types}
+                  onChange={(option) => handleFilterChange('types', option)}
+              />
+            </div>
+            <div id="pages">
+                <div id="wrap">
+                  {pagedItems.map((item) => (
+                    <Item key={item.id} name={props.name} item={item} />
+                  ))}
+                </div>
+            </div>
         </div>
-        <div id="pages">
-          <p>{page + 1} / {totalSize}</p>
-          <div id="buttons">
-            <button id="previous" onClick={handlePrev}><img src="/previous.svg" alt="Předchozí" /></button>
-            <button id="next" onClick={handleNext}><img src="/next.svg" alt="Předchozí" /></button>
-          </div>
+        <div id="controls">
+            <p>{paging.page + 1} / {paging.totalPages}</p>
+            <div id="buttons">
+              <button id="previous" onClick={handlePrev}><img src="/previous.svg" alt="Předchozí" /></button>
+              <button id="next" onClick={handleNext}><img src="/next.svg" alt="Předchozí" /></button>
+            </div>
         </div>
       </div>
       <Footer />
@@ -52,4 +118,4 @@ function Items(props) {
   );
 }
 
-export default Items
+export default Items;

@@ -1,12 +1,5 @@
-@media only screen and (max-width: 1600px) {
-    #items #wrap {
-        width: 70vw;
-    }
-}
-
 @media only screen and (max-width: 1000px) {
     #detail-product #detail-top {
-        width: 90vw;
         flex-direction: column;
         align-items: center;
     }
@@ -34,6 +27,10 @@
     #detail-account #split {
         flex-direction: column;
     }
+
+    #items #wrap {
+      margin: 0;
+    }
 }
 
 @media only screen and (max-width: 500px) {
@@ -43,5 +40,26 @@
 
     #detail-product #detail-bottom .parameter {
         flex-direction: column;
+    }
+
+    #items #row {
+       flex-direction: column;
+       align-items: center;
+       justify-content: center;
+       padding: 20px;
+    }
+
+    #items #filters {
+       width: 270px;
+       margin-bottom: 30px;
+       padding-left: 0;
+    }
+
+    #shopping-cart .item {
+       padding: 0 30px;
+    }
+
+    #shopping-cart .item .price {
+        width: 50px;
     }
 }
