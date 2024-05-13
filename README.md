@@ -14,7 +14,7 @@ který se zabývá vývojem webových aplikací pomocí Spring Boot a React.
 
 ## Overview
 
-Projekt je fiktivním ehsop, který nabízí produkty z okruhu fotografování. Webová aplikace nabízí registraci a přihlášení
+Projekt je fiktivním eshop, který nabízí produkty z okruhu fotografování. Webová aplikace nabízí registraci a přihlášení
 uživatelů. Uživatelé mají možnost procházet seznam nabízených produktů. Produkty lze filtrovat a řadit. Přihlášení
 uživatelé pak mají možnost manipulovat s nabízeným zbožím v košíku. Zboží v košíku pak lze "zabalit" do jedné
 objednávky.
@@ -115,8 +115,8 @@ objednávky.
 
 ### Package `routes`
 
-- **app**: Hlavní script pro přesměrovávání uživatele na správnou koncovou stránku.
-- **home**: Domovsá stránka.
+- **app**: Hlavní skript pro přesměrovávání uživatele na správnou koncovou stránku.
+- **home**: Domovská stránka.
 - **items**: Stránka s produkty.
 - **detail**: Detail produktu.
 - **shopping-cart**: Detail nákupního košíku.
@@ -134,9 +134,9 @@ objednávky.
 
 ### Package `service`
 
-- **OrderServiceTest**: Test etriviální funkcionality. Vypočítání celkové ceny objednávky.
-- **UserCartServiceTest**: Test spolupracujících servisních vrstev pro uživatele a nákupní košík. Každý nově
-  zaregistrovaný uživatel by měl mít vytvořený nákupní košík.
+- **OrderServiceTest**: Test netriviální funkcionality. Vypočítání celkové ceny objednávky.
+- **UserCartServiceTest**: Test spolupracujících servisní vrstvy uživatele a nákupního košíku. Každý nově zaregistrovaný
+  uživatel by měl mít vytvořený nákupní košík.
 
 ## Other Files
 

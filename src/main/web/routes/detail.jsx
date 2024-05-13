@@ -64,7 +64,7 @@ function Detail(props) {
                 <p id="text">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut iaculis sed ex sed mattis. Suspendisse finibus sapien ut libero viverra blandit. Ut hendrerit tellus elit, at efficitur leo tincidunt et. Curabitur at vestibulum dolor. Phasellus scelerisque volutpat sapien ut laoreet...
                 </p>
-                <p id="storage">Skladem {item.inStorage} ks</p>
+                <p id="storage">Skladem {item.inStorage < 0 ? 0 : item.inStorage} ks</p>
                 <div id="price">
                   <p>{item.price},- Kč</p>
                   <button onClick={() => handleBuy(item.id)}>Koupit</button>
