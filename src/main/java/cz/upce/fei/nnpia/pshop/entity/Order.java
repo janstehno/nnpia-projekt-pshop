@@ -24,7 +24,8 @@ public class Order {
     @Column private Integer phone;
     @Column private String shippingMethod;
     @Column private String paymentMethod;
-    @Column private Double price;
+    @Column private Double shippingPrice;
+    @Column private Double paymentPrice;
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id")
     @ToString.Exclude

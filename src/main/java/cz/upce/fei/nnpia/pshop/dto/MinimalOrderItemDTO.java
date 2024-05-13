@@ -1,21 +1,14 @@
 package cz.upce.fei.nnpia.pshop.dto;
 
-import cz.upce.fei.nnpia.pshop.entity.enums.ItemE;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ItemDTO {
+public class MinimalOrderItemDTO {
     private Long id;
-    private String type;
+    private Double price;
     private Integer count;
-
-    public ItemE getType() {
-        return ItemE.valueOf(type);
-    }
 }

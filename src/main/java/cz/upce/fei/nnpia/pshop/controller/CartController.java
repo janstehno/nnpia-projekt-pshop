@@ -1,6 +1,6 @@
 package cz.upce.fei.nnpia.pshop.controller;
 
-import cz.upce.fei.nnpia.pshop.dto.ItemDTO;
+import cz.upce.fei.nnpia.pshop.dto.OrderItemDTO;
 import cz.upce.fei.nnpia.pshop.entity.Cart;
 import cz.upce.fei.nnpia.pshop.entity.User;
 import cz.upce.fei.nnpia.pshop.entity.connection.CartItem;
@@ -61,30 +61,26 @@ public class CartController {
             Long userId,
             @RequestBody
             @Valid
-            ItemDTO itemDTO,
+            OrderItemDTO orderItemDTO,
             @RequestHeader("Authorization")
             String token) {
         User user = userService.getById(userId);
         String username = jwtService.extractUsername(token.substring(7));
         Cart cart = service.getByUserId(userId);
-        if (cart == null) {
-            cart = Cart.builder().user(user).build();
-            service.create(cart);
-        }
         if (user != null && username.equals(user.getUsername())) {
-            CartItem foundCartItem = cartItemService.getByCartIdAndItemIdAndType(cart.getId(), itemDTO.getId(), itemDTO.getType());
+            CartItem foundCartItem = cartItemService.getByCartIdAndItemIdAndType(cart.getId(), orderItemDTO.getId(), orderItemDTO.getType());
             if (foundCartItem != null) {
-                foundCartItem.setCount(itemDTO.getCount());
+                foundCartItem.setCount(orderItemDTO.getCount());
                 cartItemService.update(foundCartItem);
             } else {
                 Item item = null;
-                if (itemDTO.getType().equals(ItemE.CAMERA)) {
-                    item = cameraService.getById(itemDTO.getId());
-                } else if (itemDTO.getType().equals(ItemE.LENS)) {
-                    item = lensService.getById(itemDTO.getId());
+                if (orderItemDTO.getType().equals(ItemE.CAMERA)) {
+                    item = cameraService.getById(orderItemDTO.getId());
+                } else if (orderItemDTO.getType().equals(ItemE.LENS)) {
+                    item = lensService.getById(orderItemDTO.getId());
                 }
                 if (item != null) {
-                    CartItem cartItem = CartItem.builder().itemType(itemDTO.getType()).cart(cart).item(item).count(itemDTO.getCount()).build();
+                    CartItem cartItem = CartItem.builder().itemType(orderItemDTO.getType()).cart(cart).item(item).count(orderItemDTO.getCount()).build();
                     cartItemService.create(cartItem);
                 }
             }

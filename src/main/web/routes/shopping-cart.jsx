@@ -13,6 +13,8 @@ function ShoppingCart() {
   const [billingData, setBillingData] = useState({ street: '', city: '', zipCode: '', phone: '' });
   const [shippingMethod, setShippingMethod] = useState('posta');
   const [paymentMethod, setPaymentMethod] = useState('dobirka');
+  const [shippingPrice, setShippingPrice] = useState(99);
+  const [paymentPrice, setPaymentPrice] = useState(40);
   const [totalPrice, setTotalPrice] = useState(0);
   const [errorMessages, setErrorMessages] = useState({
     street: '',
@@ -37,13 +39,12 @@ function ShoppingCart() {
       totalPrice += item.item.price * item.count;
     }
 
-    totalPrice += shippingMethod === 'zasilkovna' ? 79 : 99;
-    totalPrice += paymentMethod === 'dobirka' ? 40 : 0;
-
+    totalPrice += shippingPrice;
+    totalPrice += paymentPrice;
     totalPrice += totalPrice * 0.21;
 
     setTotalPrice(totalPrice);
-  }, [items, shippingMethod, paymentMethod]);
+  }, [items, shippingPrice, paymentPrice]);
 
   const validate = (e) => {
     const { id, value } = e.target;
@@ -78,37 +79,61 @@ function ShoppingCart() {
 
   const handleShippingChange = (e) => {
     setShippingMethod(e.target.value);
+    switch (e.target.value) {
+      case 'posta':
+      case 'ppl':
+      case 'dpd':
+        setShippingPrice(99);
+        break;
+      case 'zasilkovna':
+        setShippingPrice(79);
+        break;
+      default:
+        setShippingPrice(0);
+    }
   };
 
   const handlePaymentChange = (e) => {
     setPaymentMethod(e.target.value);
+    switch (e.target.value) {
+      case 'dobirka':
+        setPaymentPrice(40);
+        break;
+      case 'kartou':
+      case 'prevodem':
+        setPaymentPrice(0);
+        break;
+      default:
+        setPaymentPrice(0);
+    }
   };
 
   const submitForm = async () => {
-      try {
-          const formData = {
-             address: {
-               street: billingData.street,
-               city: billingData.city,
-               zipCode: parseInt(billingData.zipCode),
-               phone: parseInt(billingData.phone)
-             },
-             shippingMethod: shippingMethod,
-             paymentMethod: paymentMethod,
-             items: items.map(item => ({ id: item.item.id, type: item.itemType, count: item.count })),
-             price: totalPrice
-          };
-      console.log(formData.items);
-        await axios.post(`http://localhost:8080/orders/create/${localStorage['id']}`, formData, { headers: { Authorization: axios.defaults.headers.common['Authorization'] } });
-        navigate('/');
-      } catch (error) {
-        console.error('Error ordering items:', error);
-     }
+    try {
+      const formData = {
+        address: {
+          street: billingData.street,
+          city: billingData.city,
+          zipCode: parseInt(billingData.zipCode),
+          phone: parseInt(billingData.phone)
+        },
+        shippingMethod: shippingMethod,
+        paymentMethod: paymentMethod,
+        shippingPrice: shippingPrice,
+        paymentPrice: paymentPrice,
+        items: items.map(item => ({ id: item.item.id, type: item.itemType, count: item.count })),
+      };
+
+      await axios.post(`http://localhost:8080/orders/create/${localStorage['id']}`, formData, { headers: { Authorization: axios.defaults.headers.common['Authorization'] } });
+      navigate('/');
+    } catch (error) {
+      console.error('Error ordering items:', error);
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!Object.values(errorMessages).some(e => e !== '') && Object.values(billingData).some(e => e !== '')) {
+    if (!Object.values(errorMessages).some(e => e !== '') && Object.values(billingData).every(e => e !== '')) {
       submitForm();
     }
   };
@@ -172,7 +197,7 @@ function ShoppingCart() {
             <input className={!isNotEmpty(errorMessages.zipCode) || !isNotEmpty(errorMessages.zipCode) ? 'valid' : 'invalid'} id="zipCode" name="zipCode" type="number" onChange={handleChange} />
             {errorMessages.zipCode && <p className="error">{errorMessages.zipCode}</p>}
 
-            <label htmlFor="firstname">Telefon</label>
+            <label htmlFor="phone">Telefon</label>
             <input className={!isNotEmpty(errorMessages.phone) || !isNotEmpty(errorMessages.phone) ? 'valid' : 'invalid'} id="phone" name="phone" type="number" onChange={handleChange} />
             {errorMessages.phone && <p className="error">{errorMessages.phone}</p>}
 

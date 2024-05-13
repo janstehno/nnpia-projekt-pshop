@@ -1,11 +1,12 @@
 package cz.upce.fei.nnpia.pshop.controller;
 
-import cz.upce.fei.nnpia.pshop.dto.ItemDTO;
+import cz.upce.fei.nnpia.pshop.dto.MinimalOrderItemDTO;
+import cz.upce.fei.nnpia.pshop.dto.OrderItemDTO;
+import cz.upce.fei.nnpia.pshop.dto.MinimalOrderDTO;
 import cz.upce.fei.nnpia.pshop.dto.OrderDTO;
 import cz.upce.fei.nnpia.pshop.entity.Cart;
 import cz.upce.fei.nnpia.pshop.entity.Order;
 import cz.upce.fei.nnpia.pshop.entity.User;
-import cz.upce.fei.nnpia.pshop.entity.connection.CartItem;
 import cz.upce.fei.nnpia.pshop.entity.connection.OrderItem;
 import cz.upce.fei.nnpia.pshop.entity.enums.ItemE;
 import cz.upce.fei.nnpia.pshop.entity.enums.OrderE;
@@ -24,6 +25,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -49,7 +51,7 @@ public class OrderController {
     private final JwtService jwtService;
 
     @GetMapping("/{userId}")
-    public ResponseEntity<List<Order>> getCartById(
+    public ResponseEntity<List<MinimalOrderDTO>> getCartById(
             @PathVariable
             Long userId,
             @RequestHeader("Authorization")
@@ -59,7 +61,21 @@ public class OrderController {
         if (user != null && username.equals(user.getUsername())) {
             List<Order> orders = service.getByUserId(userId);
             orders.sort(Comparator.comparing(Order::getCreation_date));
-            return ResponseEntity.ok(orders);
+            List<MinimalOrderDTO> ordersDTO = new ArrayList<>();
+            for (Order order : orders) {
+                List<MinimalOrderItemDTO> minimalOrderItemsDTO = new ArrayList<>();
+                List<OrderItem> orderItems = orderItemService.getByOrderId(order.getId());
+                for (OrderItem orderItem : orderItems) {
+                    Item item = null;
+                    if (orderItem.getItemType().equals(ItemE.CAMERA)) {
+                        item = cameraService.getById(orderItem.getId());
+                    } else if (orderItem.getItemType().equals(ItemE.LENS)) {
+                        item = lensService.getById(orderItem.getId());
+                    }
+                    minimalOrderItemsDTO.add(new MinimalOrderItemDTO(orderItem.getId(), item.getPrice(), orderItem.getCount()));
+                }
+                ordersDTO.add(new MinimalOrderDTO(order.getId(), order.getShippingPrice(), order.getPaymentPrice(), minimalOrderItemsDTO, order.getState()));
+            } return ResponseEntity.ok(ordersDTO);
         } else {
             return ResponseEntity.status(403).build();
         }
@@ -88,11 +104,12 @@ public class OrderController {
                                .phone(orderDTO.getAddress().getPhone())
                                .shippingMethod(orderDTO.getShippingMethod())
                                .paymentMethod(orderDTO.getPaymentMethod())
-                               .price(orderDTO.getPrice())
+                               .shippingPrice(orderDTO.getShippingPrice())
+                               .paymentPrice(orderDTO.getPaymentPrice())
                                .user(user)
                                .build();
             service.create(order);
-            for (ItemDTO cartItem : orderDTO.getItems()) {
+            for (OrderItemDTO cartItem : orderDTO.getItems()) {
                 Item item = null;
                 if (cartItem.getType().equals(ItemE.CAMERA)) {
                     item = cameraService.getById(cartItem.getId());

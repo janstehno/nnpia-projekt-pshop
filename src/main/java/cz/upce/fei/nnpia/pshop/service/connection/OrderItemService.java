@@ -40,4 +40,8 @@ public class OrderItemService implements ServiceI<OrderItem> {
     public void deleteById(Long id) {
         orderItemRepository.deleteById(id);
     }
+
+    public List<OrderItem> getByOrderId(Long id){
+        return orderItemRepository.findAllByOrderId(id);
+    }
 }

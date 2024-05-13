@@ -9,6 +9,7 @@ import cz.upce.fei.nnpia.pshop.security.dto.AuthenticationResponse;
 import cz.upce.fei.nnpia.pshop.security.dto.LoginRequest;
 import cz.upce.fei.nnpia.pshop.security.dto.RegisterRequest;
 import cz.upce.fei.nnpia.pshop.security.jwt.JwtService;
+import cz.upce.fei.nnpia.pshop.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,8 @@ import java.util.Set;
 @Service
 @AllArgsConstructor
 public class AuthService {
+
+    private final UserService userService;
 
     private final UserRepository userRepository;
 
@@ -55,7 +58,7 @@ public class AuthService {
                               .update_date(LocalDateTime.now())
                               .roles(Set.of(roleRepository.findByName(RoleE.USER).orElseThrow()))
                               .build();
-        userRepository.save(user);
+        userService.create(user);
         final Optional<User> found = userRepository.findByUsername(registerRequest.getUsername());
         return returnUser(found.orElseThrow());
     }

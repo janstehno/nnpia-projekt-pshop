@@ -9,6 +9,7 @@ function Orders() {
   useEffect(() => {
     const fetchOrders = async () => {
       const response = await axios.get(`http://localhost:8080/orders/${localStorage['id']}`);
+      console.log(response);
       setOrders(response.data);
     };
 
