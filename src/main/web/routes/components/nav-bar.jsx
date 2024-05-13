@@ -80,8 +80,10 @@ function Nav() {
                         <p>{cartItems.length}</p>
                     </div>
                     <div id="auth">
-                        <p id="username">{username.firstname} {username.lastname}</p>
-                        <button id="account" onClick={handleAccount}>Účet</button>
+                        <div id="account">
+                            <p id="username">{username.firstname} {username.lastname}</p>
+                            <button id="account" onClick={handleAccount}>Účet</button>
+                        </div>
                         <button id="logout" onClick={handleLogout}>Odhlásit</button>
                     </div>
                 </div>

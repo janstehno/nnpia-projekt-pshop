@@ -21,15 +21,42 @@
     #detail-product #detail-bottom {
         width: 90vw;
     }
+
+    #detail-account #split #orders {
+        width: 100%;
+    }
 }
 
 @media only screen and (max-width: 750px) {
     #detail-account #split {
+        width: 80%;
         flex-direction: column;
+        align-items: center;
+    }
+
+    #detail-account #split #left {
+        margin-right: 0;
+        text-align: center;
+    }
+
+    #detail-account #split #right {
+        display: flex;
+        justify-content: center;
     }
 
     #items #wrap {
       margin: 0;
+      justify-content: center;
+    }
+
+    #items #pages #sort div {
+        flex-direction: column;
+        width: 200px;
+    }
+
+    #items #pages #sort {
+        display: flex;
+        justify-content: center;
     }
 }
 
@@ -50,7 +77,7 @@
     }
 
     #items #filters {
-       width: 270px;
+       width: 200px;
        margin-bottom: 30px;
        padding-left: 0;
     }
@@ -61,5 +88,83 @@
 
     #shopping-cart .item .price {
         width: 50px;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    nav #navigation {
+      height: auto;
+      padding: 20px;
+      flex-direction: column;
+      justify-content: center;
+      align-items: start;
+    }
+
+    nav #navigation #title {
+      text-align: left;
+    }
+
+    nav #navigation #links {
+      flex-direction: column;
+    }
+
+    nav #bar > * {
+      height: auto;
+      padding: 20px;
+    }
+
+    nav #bar #auth {
+      flex-direction: column;
+      align-items: end;
+      grid-gap: 5px;
+    }
+
+    #shopping-cart .item {
+      height: auto;
+      width: 100vw;
+      padding: 0 10px;
+      flex-direction: column;
+      align-items: start;
+      margin-bottom: 15px;
+    }
+
+    #shopping-cart .item > *{
+      height: 20px;
+    }
+
+    #shopping-cart .item .name {
+        margin-right: auto;
+    }
+
+    #shopping-cart .item .amount {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    #shopping-cart .item .price {
+      width: auto;
+    }
+
+    #shopping-cart .item button.subtract {
+        margin-left: auto;
+    }
+
+    #shopping-cart .item .count{
+      height: 20px;
+    }
+
+    #shopping-cart .item button{
+      width: 20px;
+      height: 20px;
+    }
+
+    #detail-account #split #orders .order {
+        flex-direction: column;
+    }
+
+    #detail-account #split #orders .order div {
+        flex-direction: column;
     }
 }

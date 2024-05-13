@@ -1,7 +1,8 @@
 import React from 'react';
 import Filter from './filter.jsx';
 
-const FilterList = ({ name, options, onChange }) => {
+const FilterList = (props) => {
+  const { name, options, onChange } = props;
   return (
     <div className="filter">
       <h3>{name}</h3>

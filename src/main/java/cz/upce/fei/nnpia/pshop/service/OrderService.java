@@ -27,6 +27,10 @@ public class OrderService implements ServiceI<Order> {
         return order.orElse(null);
     }
 
+    public List<Order> getByUserId(Long userId) {
+        return orderRepository.findAllByUserId(userId);
+    }
+
     @Override
     public Order create(Order order) {
         return orderRepository.save(order);

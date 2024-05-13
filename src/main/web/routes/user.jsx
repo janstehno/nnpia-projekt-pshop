@@ -7,6 +7,7 @@ import Error from './components/error.jsx';
 
 import FormAccountName from './components/form-account-name.jsx';
 import FormAccountPassword from './components/form-account-password.jsx';
+import Orders from './components/orders.jsx';
 
 function Items() {
   const [user, setUser] = useState([]);
@@ -41,12 +42,17 @@ function Items() {
           <>
             <h1>Účet</h1>
             <div id="split">
-              <div id="sections">
+              <div id="left">
                 <a href="/account"><h3>Základní údaje</h3></a>
                 <a href="/account/password"><h3>Zabezpečení</h3></a>
+                <a href="/account/orders"><h3>Objednávky</h3></a>
               </div>
-              <div id="form">
-                {location.href.includes("password") ? <FormAccountPassword /> : <FormAccountName user={user} />}
+              <div id="right">
+                {
+                    location.href.includes("password") ? <FormAccountPassword /> :
+                    location.href.includes("orders") ? <Orders /> :
+                    <FormAccountName user={user} />
+                }
               </div>
             </div>
           </>

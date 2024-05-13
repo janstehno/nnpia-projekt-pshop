@@ -5,13 +5,14 @@ import axios from '../axios';
 function ShoppingCartItem(props) {
     let navigate = useNavigate();
 
-    const { id, item } = props;
+    const { id, item, onItemCountChange } = props;
     const [count, setCount] = useState(props.count);
 
     const submitCount = async (newCount) => {
         try{
             const response = await axios.post(`http://localhost:8080/carts/add/${localStorage['id']}`, { id: item.id, type: item.itemType, count: newCount }, axios.defaults.headers.common['Authorization']);
             setCount(newCount);
+            onItemCountChange(id, newCount);
         } catch (error){
             console.error('Error editing product in shopping cart:', error);
         }
@@ -53,11 +54,13 @@ function ShoppingCartItem(props) {
     return (
         <div className="item">
             <h3 className="name">{item.name}</h3>
-            <p className="price">{item.price * count},- Kč</p>
-            <button className="subtract" onClick={handleSubtract}>-</button>
-            <input className="count" onChange={handleChange} value={count}/>
-            <button className="add" onClick={handleAdd}>+</button>
-            <button className="remove" onClick={handleRemove}>✖</button>
+            <div className="amount">
+                <p className="price">{(item.price * count).toLocaleString()},- Kč</p>
+                <button className="subtract" onClick={handleSubtract}>-</button>
+                <input className="count" onChange={handleChange} value={count}/>
+                <button className="add" onClick={handleAdd}>+</button>
+                <button className="remove" onClick={handleRemove}>✖</button>
+            </div>
         </div>
     );
 }

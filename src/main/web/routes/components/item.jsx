@@ -25,7 +25,7 @@ function Item(props) {
             <img className="thumbnail" src={item.thumbnail} alt={item.name} />
             <h3 onClick={() => navigate(`/${props.name}/${item.id}`)}>{item.name}</h3>
             <div className="price">
-                <p>{item.price},- Kč</p>
+                <p>{(item.price).toLocaleString()},- Kč</p>
                 <button onClick={handleBuy}>Koupit</button>
             </div>
         </div>

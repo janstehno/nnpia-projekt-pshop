@@ -1,13 +1,30 @@
 package cz.upce.fei.nnpia.pshop.controller;
 
+import cz.upce.fei.nnpia.pshop.dto.ItemDTO;
+import cz.upce.fei.nnpia.pshop.dto.OrderDTO;
+import cz.upce.fei.nnpia.pshop.entity.Cart;
 import cz.upce.fei.nnpia.pshop.entity.Order;
+import cz.upce.fei.nnpia.pshop.entity.User;
+import cz.upce.fei.nnpia.pshop.entity.connection.CartItem;
+import cz.upce.fei.nnpia.pshop.entity.connection.OrderItem;
+import cz.upce.fei.nnpia.pshop.entity.enums.ItemE;
+import cz.upce.fei.nnpia.pshop.entity.enums.OrderE;
+import cz.upce.fei.nnpia.pshop.entity.items.Item;
+import cz.upce.fei.nnpia.pshop.security.jwt.JwtService;
+import cz.upce.fei.nnpia.pshop.service.CartService;
 import cz.upce.fei.nnpia.pshop.service.OrderService;
+import cz.upce.fei.nnpia.pshop.service.UserService;
+import cz.upce.fei.nnpia.pshop.service.connection.CartItemService;
+import cz.upce.fei.nnpia.pshop.service.connection.OrderItemService;
+import cz.upce.fei.nnpia.pshop.service.items.CameraService;
+import cz.upce.fei.nnpia.pshop.service.items.LensService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 
 @RestController
@@ -17,20 +34,79 @@ public class OrderController {
 
     private final OrderService service;
 
-    @GetMapping()
-    public List<Order> getAllOrders() {
-        return service.getAll();
+    private final CartService cartService;
+
+    private final UserService userService;
+
+    private final CameraService cameraService;
+
+    private final LensService lensService;
+
+    private final CartItemService cartItemService;
+
+    private final OrderItemService orderItemService;
+
+    private final JwtService jwtService;
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<List<Order>> getCartById(
+            @PathVariable
+            Long userId,
+            @RequestHeader("Authorization")
+            String token) {
+        User user = userService.getById(userId);
+        String username = jwtService.extractUsername(token.substring(7));
+        if (user != null && username.equals(user.getUsername())) {
+            List<Order> orders = service.getByUserId(userId);
+            orders.sort(Comparator.comparing(Order::getCreation_date));
+            return ResponseEntity.ok(orders);
+        } else {
+            return ResponseEntity.status(403).build();
+        }
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Order> getOrderById(
+    @PostMapping("/create/{userId}")
+    public ResponseEntity<Void> addItem(
             @PathVariable
-            Long id) {
-        Order order = service.getById(id);
-        if (order != null) {
-            return ResponseEntity.ok(order);
+            Long userId,
+            @RequestBody
+            @Valid
+            OrderDTO orderDTO,
+            @RequestHeader("Authorization")
+            String token) {
+        User user = userService.getById(userId);
+        String username = jwtService.extractUsername(token.substring(7));
+        if (user != null && username.equals(user.getUsername())) {
+            Cart cart = cartService.getByUserId(userId);
+            cartItemService.deleteAllByCartId(cart.getId());
+            Order order = Order.builder()
+                               .creation_date(LocalDateTime.now())
+                               .state(OrderE.CREATED)
+                               .street(orderDTO.getAddress().getStreet())
+                               .city(orderDTO.getAddress().getCity())
+                               .zipCode(orderDTO.getAddress().getZipCode())
+                               .phone(orderDTO.getAddress().getPhone())
+                               .shippingMethod(orderDTO.getShippingMethod())
+                               .paymentMethod(orderDTO.getPaymentMethod())
+                               .price(orderDTO.getPrice())
+                               .user(user)
+                               .build();
+            service.create(order);
+            for (ItemDTO cartItem : orderDTO.getItems()) {
+                Item item = null;
+                if (cartItem.getType().equals(ItemE.CAMERA)) {
+                    item = cameraService.getById(cartItem.getId());
+                } else if (cartItem.getType().equals(ItemE.LENS)) {
+                    item = lensService.getById(cartItem.getId());
+                }
+                if (item != null) {
+                    OrderItem orderItem = OrderItem.builder().itemType(cartItem.getType()).order(order).item(item).count(cartItem.getCount()).build();
+                    orderItemService.create(orderItem);
+                }
+            }
+            return ResponseEntity.noContent().build();
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(403).build();
         }
     }
 

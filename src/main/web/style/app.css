@@ -59,8 +59,6 @@ nav #navigation #title {
 }
 
 nav #navigation #right {
-  display: flex;
-  flex-direction: column;
   align-items: end;
 }
 
@@ -83,16 +81,21 @@ nav #bar #logged-in {
 
 nav #bar #logged-out {
   justify-content: end;
+  grid-gap: 10px;
 }
 
 nav #bar #auth {
   display: flex;
   align-items: center;
   justify-content: end;
+  grid-gap: 10px;
 }
 
-nav #bar #logged-in > * > *, nav #bar #logged-out > * {
-  margin-right: 10px;
+nav #bar #auth #account {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  grid-gap: 10px;
 }
 
 nav #bar #cart{
@@ -171,24 +174,15 @@ nav #bar #cart img{
   background-image: url("../assets/images/forest.jpg");
 }
 
-#sign {
-  min-width: inherit;
-  min-height: inherit;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background-color: #21212188;
-}
-
-#sign h1 {
-  margin-bottom: 10px;
-}
-
 form {
   width: 250px;
   display: flex;
   flex-direction: column;
+}
+
+form h2{
+  margin-top: 30px;
+  margin-bottom: 10px;
 }
 
 form label {
@@ -199,13 +193,13 @@ form label {
 }
 
 form input,
+form select,
 form span {
-  width: inherit;
+  width: 100%;
   height: 40px;
   padding: 0 10px;
   border: none;
   border-radius: 5px;
-  text-align: center-left;
   font-size: 0.9rem;
   background-color: #FFFFFF;
 }
@@ -213,6 +207,7 @@ form span {
 form span {
   display: flex;
   align-items: center;
+  text-align: center-left;
   color: #696969;
   background-color: #DEDEDE;
 }
@@ -236,6 +231,10 @@ form .invalid {
   border: 3px var(--error-color) solid;
 }
 
+form input#submit {
+  margin-top: 20px;
+}
+
 input#submit,
 button {
   width: inherit;
@@ -257,8 +256,18 @@ button:hover {
   cursor: pointer;
 }
 
-form input#submit {
-  margin-top: 20px;
+#sign {
+  min-width: inherit;
+  min-height: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #21212188;
+}
+
+#sign h1 {
+  margin-bottom: 10px;
 }
 
 #items #row {
@@ -270,6 +279,20 @@ form input#submit {
 
 #items #pages{
   flex: 1;
+}
+
+#items #pages #sort{
+  margin-bottom: 30px;
+}
+
+#items #pages #sort div{
+  display: flex;
+  grid-gap: 15px;
+}
+
+#items #pages #sort div button.inactive{
+  color: var(--secondary-color);
+  background-color: #DEDEDE;
 }
 
 #items,
@@ -495,25 +518,57 @@ form input#submit {
 
 #detail-account #split {
   display: flex;
-
+  width: 80%;
 }
 
-#detail-account #split #sections {
+#detail-account #split #left {
+  min-width: 250px;
   margin-top: 35px;
   margin-right: 50px;
 }
 
-#detail-account #split #sections a {
+#detail-account #split #left a {
   text-decoration: none;
   color: var(--secondary-color);
 }
 
-#detail-account #split #sections a#active {
+#detail-account #split #left a#active {
   color: var(--accent-color);
 }
 
-#detail-account #split #sections h3 {
+#detail-account #split #left h3 {
   margin-bottom: 10px;
+}
+
+#detail-account #split #right {
+   width: 100%;
+   margin-top: 30px;
+}
+
+#detail-account #split #orders {
+  display: flex;
+  flex-direction: column;
+  grid-gap: 15px;
+}
+
+#detail-account #split #orders .order {
+  padding: 20px;
+  background-color: #FEFEFE;
+  border-radius: 10px;
+}
+
+#detail-account #split #orders .order {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+}
+
+#detail-account #split #orders .order div {
+  display: flex;
+}
+
+#detail-account #split #orders .order div .price {
+  margin-right: 10px;
 }
 
 #success {
@@ -523,6 +578,11 @@ form input#submit {
 
 #shopping-cart .item {
   height: 70px;
+  display: flex;
+  align-items: center;
+}
+
+#shopping-cart .item .amount {
   display: flex;
   align-items: center;
 }

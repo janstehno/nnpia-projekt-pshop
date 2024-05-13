@@ -50,4 +50,11 @@ public class CartItemService implements ServiceI<CartItem> {
     public void deleteById(Long id) {
         cartItemRepository.deleteById(id);
     }
+
+    public void deleteAllByCartId(Long id) {
+        List<CartItem> cartItems = getByCartId(id);
+        for (CartItem cartItem : cartItems) {
+            deleteById(cartItem.getId());
+        }
+    }
 }
